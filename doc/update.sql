@@ -33,7 +33,7 @@ create table s_goods (
 create table s_goods_detail (
   uid varchar(36) not null,
   goods_id varchar(36) null,
-  sku_ids varchar(20) null comment 'sku名稱',
+  sku_ids varchar(256) null comment 'skuids',
   description varchar(64) null comment 'sku描述',
   price int(5) null comment '单价',
   stock int(3) null comment '庫存',
@@ -46,7 +46,7 @@ create table s_goods_detail (
 create table s_shop_cart (
   uid varchar(36) not null,
   user_id varchar(36) null comment '用戶id',
-  sku_id varchar(256) null comment 'skuids',
+  sku_id varchar(36) null comment 'skuid',
   quantity int(2) null comment '數量',
   create_time datetime null comment '創建時間',
   primary key (uid)
@@ -64,9 +64,28 @@ create table s_order (
   id bigint auto_increment not null,
   order_no varchar(20) null,
   uid varchar(36) null,
-  amount int(5) null comment '金额',
+  total_amount int(5) null comment '总金额',
   status int(1) null comment '状态1-待付款2-待发货3-待收货4-换货中5-订单完成',
   create_time datetime null comment '創建時間',
-  update_time datetime null comment '創建時間',
-  primary key (uid)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment 'sku表';
+  update_time datetime null comment '更新時間',
+  primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '订单表';
+
+create table s_order_detail (
+  id bigint auto_increment not null,
+  order_no varchar(20) null,
+  sku_id varchar(36) null comment 'skuid',
+  quantity int(2) null comment '數量',
+  amount int(5) null comment '总价',
+  create_time datetime null comment '創建時間',
+  update_time datetime null comment '更新時間',
+  primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '订单详情表';
+
+create table s_log (
+  id bigint auto_increment not null,
+  uid varchar(36) null,
+  url varchar(16) null comment '请求url',
+  create_time datetime null comment '創建時間',
+  primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '请求日志表';
