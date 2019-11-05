@@ -17,6 +17,7 @@ create table s_brand (
    id varchar(36) not null,
    name_zh varchar(12),
    name_en varchar(32),
+   logo varchar(64),
    status int(1) null comment '状态1-正常',
    primary key (uid)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '品牌表';
