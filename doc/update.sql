@@ -1,17 +1,20 @@
 create table s_user (
    uid varchar(36) not null,
+   open_id varchar(64) not null,
    name varchar(16) null comment '用户名',
    password varchar(32) null comment '密码',
    salt varchar(8) null comment '盐',
    phone varchar(16) null comemnt '电话号码',
    email varchar(16) null comment '邮箱',
    status int(1) null comment '状态1-正常',
+   gender int(1) null comment '性別1-男2-女',
+   avatar_url varchar(64) comment '頭像',
    create_time datetime null comment '创建时间',
    primary key (uid)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '用户表';
 
 create table s_brand (
-   uid varchar(36) not null,
+   id varchar(36) not null,
    name_zh varchar(12),
    name_en varchar(32),
    status int(1) null comment '状态1-正常',
@@ -19,7 +22,7 @@ create table s_brand (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '品牌表';
 
 create table s_goods (
-  uid varchar(36) not null,
+  id varchar(36) not null,
   brand_id varchar(36) null,
   name varchar(25) null comment '商品名称',
   description varchar(64) null comment '商品描述',
@@ -31,7 +34,7 @@ create table s_goods (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '商品表';
 
 create table s_goods_detail (
-  uid varchar(36) not null,
+  id varchar(36) not null,
   goods_id varchar(36) null,
   sku_ids varchar(256) null comment 'skuids',
   description varchar(64) null comment 'sku描述',
@@ -44,7 +47,7 @@ create table s_goods_detail (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '商品详情表';
 
 create table s_shop_cart (
-  uid varchar(36) not null,
+  id varchar(36) not null,
   user_id varchar(36) null comment '用戶id',
   sku_id varchar(36) null comment 'skuid',
   quantity int(2) null comment '數量',
@@ -53,7 +56,7 @@ create table s_shop_cart (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '购物车表';
 
 create table s_sku (
-  uid varchar(36) not null,
+  id varchar(36) not null,
   code varchar(10) null,
   name varchar(10) null comment 'sku名称',
   value varchar(16) null comment 'sku值',
@@ -66,6 +69,9 @@ create table s_order (
   uid varchar(36) null,
   total_amount int(5) null comment '总金额',
   status int(1) null comment '状态1-待付款2-待发货3-待收货4-换货中5-订单完成',
+  address_id varchar(36) null,
+  express_id varchar(36) null,
+  pay_time datetime null comment '付款時間',
   create_time datetime null comment '創建時間',
   update_time datetime null comment '更新時間',
   primary key (id)
@@ -81,6 +87,24 @@ create table s_order_detail (
   update_time datetime null comment '更新時間',
   primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '订单详情表';
+
+create table s_express (
+  id varchar(36) not null,
+  order_no varchar(20) null,
+  express_no varchar(40) null,
+  express_name varchar(8) null,
+  create_time datetime null comment '創建時間',
+  primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '快遞單號表';
+
+create table s_receive_address (
+  id varchar(36) not null,
+  uid varchar(36) null,
+  address varchar(128) null,
+  name varchar(10) null,
+  phone varchar(16) null,
+  primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '快遞單號表';
 
 create table s_log (
   id bigint auto_increment not null,
