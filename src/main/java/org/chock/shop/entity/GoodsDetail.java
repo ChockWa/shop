@@ -8,16 +8,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
+/**
+ * @auther: zhuohuahe
+ * @date: 2019/11/6 09:40
+ * @description:
+ */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("s_brand")
-public class Brand {
+@TableName("s_goods_detail")
+public class GoodsDetail {
     @TableId(type = IdType.INPUT)
     private String id;
-    private String nameCn;
-    private String nameEn;
-    private String logo;
+    private String goodsId;
+    private String skuIds;
+    private String description;
+    private Integer price;
+    private Integer stock;
     private Integer status;
+    private Date createTime;
+    private Date updateTime;
 }

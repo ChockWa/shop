@@ -49,6 +49,9 @@ spring:
     default-encoding: utf-8
     from: hzh081215@qq.com #与上面的username保持一致
 
+wx-appid: wx851145b8f1cdf10d
+wx-secret: f8278c5f904ddb85ff86a04378109c79
+
 dns:
    api-http: http://www.24beauties.xyz
    api-https: https://www.24beauties.xyz

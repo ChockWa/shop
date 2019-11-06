@@ -29,8 +29,8 @@ public class RedisUtils {
         redisTemplate.opsForValue().set(key, value);
     }
 
-    public void set(String key, Object value, long milliSecond) {
-        redisTemplate.opsForValue().set(key, value, milliSecond, TimeUnit.MILLISECONDS);
+    public void set(String key, Object value, long second) {
+        redisTemplate.opsForValue().set(key, value, second, TimeUnit.SECONDS);
     }
 
     public Object get(String key) {

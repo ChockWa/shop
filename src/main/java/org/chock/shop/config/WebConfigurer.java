@@ -1,6 +1,5 @@
 package org.chock.shop.config;
 
-import com.chockwa.beauty.core.interceptor.AuthorizationInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

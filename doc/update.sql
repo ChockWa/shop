@@ -15,11 +15,11 @@ create table s_user (
 
 create table s_brand (
    id varchar(36) not null,
-   name_zh varchar(12),
+   name_cn varchar(12),
    name_en varchar(32),
    logo varchar(64),
    status int(1) null comment '状态1-正常',
-   primary key (uid)
+   primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '品牌表';
 
 create table s_goods (
@@ -31,29 +31,36 @@ create table s_goods (
   status int(1) null comment '状态1-正常',
   create_time datetime null comment '创建时间',
   update_time datetime null comment '更新時間',
-  primary key (uid)
+  primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '商品表';
 
 create table s_goods_detail (
   id varchar(36) not null,
   goods_id varchar(36) null,
-  sku_ids varchar(256) null comment 'skuids',
+  goods_sku_ids varchar(256) null,
   description varchar(64) null comment 'sku描述',
   price int(5) null comment '单价',
   stock int(3) null comment '庫存',
   status int(1) null comment '状态1-正常',
   create_time datetime null comment '创建时间',
   update_time datetime null comment '更新時間',
-  primary key (uid)
+  primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '商品详情表';
+
+create table s_goods_sku (
+  id varchar(36) not null,
+  goods_id varchar(36) null,
+  sku_id varchar(64) null comment 'skuid',
+  primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '商品详情表';
 
 create table s_shop_cart (
   id varchar(36) not null,
   user_id varchar(36) null comment '用戶id',
-  sku_id varchar(36) null comment 'skuid',
+  goods_detail_id varchar(36) null comment 'skuid',
   quantity int(2) null comment '數量',
   create_time datetime null comment '創建時間',
-  primary key (uid)
+  primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '购物车表';
 
 create table s_sku (
@@ -61,7 +68,7 @@ create table s_sku (
   code varchar(10) null,
   name varchar(10) null comment 'sku名称',
   value varchar(16) null comment 'sku值',
-  primary key (uid)
+  primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment 'sku表';
 
 create table s_order (

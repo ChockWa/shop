@@ -8,16 +8,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * @auther: zhuohuahe
+ * @date: 2019/11/6 09:38
+ * @description:
+ */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("s_brand")
-public class Brand {
+@TableName("s_goods")
+public class ShopCart {
     @TableId(type = IdType.INPUT)
     private String id;
-    private String nameCn;
-    private String nameEn;
-    private String logo;
-    private Integer status;
 }
