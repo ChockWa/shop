@@ -19,6 +19,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GoodsInfo {
+    private String brandId;
     private String goodsId;
     private String name;
     private String description;

@@ -1,5 +1,6 @@
 package org.chock.shop.service;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.chock.shop.entity.GoodsSku;
 import org.chock.shop.mapper.GoodsSkuMapper;
 import org.chock.shop.util.UUIDUtils;
@@ -25,5 +26,9 @@ public class GoodsSkuService {
 
     public void delete(String goodsSkuId){
         goodsSkuMapper.deleteById(goodsSkuId);
+    }
+
+    public void deleteByGoodsId(String goodsId){
+        goodsSkuMapper.delete(Wrappers.<GoodsSku>lambdaQuery().eq(GoodsSku::getGoodsId, goodsId));
     }
 }
