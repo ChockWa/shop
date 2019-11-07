@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chock.shop.mapper.GoodsDetailMapper">
+
+  <select id="listGoodsDetail" resultType="org.chock.shop.dto.GoodsDetailDto">
+    select a.*, b.name
+    from s_goods_detail a
+    inner join s_goods b on a.goods_id = b.id
+    where a.goods_id = #{goodsId}
+  </select>
+</mapper>

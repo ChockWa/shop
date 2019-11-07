@@ -22,12 +22,18 @@ public class SkuController {
 
     @GetMapping("/list")
     public Result list(){
-        return Result.SUCCESS().setData("list", skuService.listSku());
+        return Result.SUCCESS().setData("skuMap", skuService.listSku());
     }
 
-    @PostMapping("/save")
-    public Result save(@RequestBody List<Sku> skus){
-        skuService.save(skus);
+    @PostMapping("/add")
+    public Result add(@RequestBody List<Sku> skus){
+        skuService.add(skus);
+        return Result.SUCCESS();
+    }
+
+    @GetMapping("/del")
+    public Result delete(String code){
+        skuService.delete(code);
         return Result.SUCCESS();
     }
 }

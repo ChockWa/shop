@@ -1,6 +1,9 @@
 package org.chock.shop.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
+import org.chock.shop.dto.PageParam;
+import org.chock.shop.dto.PageResult;
 import org.chock.shop.entity.Brand;
 import org.chock.shop.mapper.BrandMapper;
 import org.chock.shop.util.UUIDUtils;
@@ -30,6 +33,15 @@ public class BrandService {
             throw new IllegalArgumentException("id不能为空");
         }
         brandMapper.updateById(brand);
+    }
+
+    public PageResult<Brand> listPage(PageParam pageParam){
+        Page<Brand> page = new Page<>(pageParam.getPageIndex(), pageParam.getPageSize());
+        brandMapper.selectPage(page, null);
+        PageResult<Brand> result = new PageResult<>();
+        result.setTotal(page.getTotal());
+        result.setRecords(page.getRecords());
+        return result;
     }
 
     public List<Brand> list(){

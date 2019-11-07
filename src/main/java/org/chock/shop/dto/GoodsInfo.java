@@ -24,5 +24,6 @@ public class GoodsInfo {
     private String name;
     private String description;
     private String images;
+    boolean status;
     private Map<String, List<Sku>> skuMap;
 }

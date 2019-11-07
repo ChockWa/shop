@@ -1,5 +1,6 @@
 package org.chock.shop.controller;
 
+import org.chock.shop.dto.PageParam;
 import org.chock.shop.dto.Result;
 import org.chock.shop.entity.Brand;
 import org.chock.shop.service.BrandService;
@@ -27,6 +28,11 @@ public class BrandController {
     public Result update(@RequestBody Brand brand){
         brandService.update(brand);
         return Result.SUCCESS();
+    }
+
+    @GetMapping("listPage")
+    public Result listPage(PageParam pageParam){
+        return Result.SUCCESS().setData("list", brandService.listPage(pageParam));
     }
 
     @GetMapping("list")

@@ -1,16 +1,21 @@
 package org.chock.shop.service;
 
-import com.google.common.collect.Lists;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
-import org.chock.shop.dto.GoodsInfo;
+import org.chock.shop.dto.*;
 import org.chock.shop.entity.Goods;
+import org.chock.shop.entity.GoodsDetail;
 import org.chock.shop.entity.Sku;
+import org.chock.shop.mapper.GoodsDetailMapper;
 import org.chock.shop.mapper.GoodsMapper;
 import org.chock.shop.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class GoodsService {
@@ -18,15 +23,18 @@ public class GoodsService {
     @Autowired
     private GoodsMapper goodsMapper;
     @Autowired
+    private GoodsDetailMapper goodsDetailMapper;
+    @Autowired
     private GoodsSkuService goodsSkuService;
 
+    @Transactional(rollbackFor = Exception.class)
     public void saveGoods(GoodsInfo goodsInfo){
         // 保存商品信息
         Goods goods = new Goods();
         goods.setBrandId(goodsInfo.getBrandId());
         goods.setName(goodsInfo.getName());
         goods.setDescription(goodsInfo.getDescription());
-        goods.setStatus(1);
+        goods.setStatus(goodsInfo.isStatus()?1:0);
         if(StringUtils.isBlank(goodsInfo.getGoodsId())){
             goods.setCreateTime(new Date());
             goods.setId(UUIDUtils.getUuid());
@@ -35,35 +43,71 @@ public class GoodsService {
             goods.setUpdateTime(new Date());
             goodsMapper.updateById(goods);
         }
+        if(StringUtils.isNoneBlank(goodsInfo.getGoodsId())){
+            return;
+        }
+
         // 获取所有sku组合保存信息
-//        Map<String, List<Sku>> skuMap = goodsInfo.getSkuMap();
-//        for(Map.Entry<String, List<Sku>> entry : skuMap.entrySet()){
-//            for(){}
-//        }
+        List<List<String>> allSkuIds = new ArrayList<>();
+        for(Map.Entry<String, List<Sku>> entry : goodsInfo.getSkuMap().entrySet()){
+            // 插入商品sku信息
+            for(Sku sku : entry.getValue()){
+                goodsSkuService.add(goods.getId(), sku.getId());
+            }
+            allSkuIds.add(entry.getValue().stream().map(Sku::getId).collect(Collectors.toList()));
+        }
+        List<String> firstSkuIds = allSkuIds.get(0);
+        List<List<String>> allSkuComposes = getAllSkuCompose(convert(firstSkuIds), allSkuIds, 1);
+
+        // 根据所有sku组合生成商品详情
+        for(List<String> skuIds : allSkuComposes){
+            GoodsDetail goodsDetail = new GoodsDetail();
+            goodsDetail.setId(UUIDUtils.getUuid());
+            goodsDetail.setGoodsId(goods.getId());
+            goodsDetail.setSkuIds(String.join(",", skuIds));
+            goodsDetail.setCreateTime(new Date());
+            goodsDetail.setStatus(1);
+            goodsDetailMapper.insert(goodsDetail);
+        }
     }
 
-    public static void main(String[] args) {
-        List<Integer> i1 = Arrays.asList(1,2,3);
-        List<Integer> i2 = Arrays.asList(4,5,6);
-        List<List<Integer>> all = Arrays.asList(i1,i2);
-        List<List<Integer>> initList = Arrays.asList(i1);
-        List<List<Integer>> result = test(initList, all, 1);
-        System.out.println(result.size());
-        System.out.println(11111);
-    }
-
-    private static List<List<Integer>> test(List<List<Integer>> current, List<List<Integer>> all,Integer nextIndex){
+    private static List<List<String>> getAllSkuCompose(List<List<String>> current, List<List<String>> all,Integer nextIndex){
         if(all.size() < nextIndex + 1){
             return current;
         }
-        List<List<Integer>> lists = new ArrayList<>();
-        for(List<Integer> is : current){
-            List<Integer> tempList = new ArrayList<>(is);
-            for(Integer j : all.get(nextIndex)){
+        List<List<String>> lists = new ArrayList<>();
+        for(List<String> is : current){
+            for(String j : all.get(nextIndex)){
+                List<String> tempList = new ArrayList<>(is);
                 tempList.add(j);
+                lists.add(tempList);
             }
-            lists.add(tempList);
         }
-        return test(lists, all, nextIndex + 1);
+        return getAllSkuCompose(lists, all, nextIndex + 1);
+    }
+
+    private static List<List<String>> convert(List<String> target){
+        List<List<String>> lists = new ArrayList<>(target.size());
+        for(String i : target){
+            lists.add(Arrays.asList(i));
+        }
+        return lists;
+    }
+
+    public PageResult<GoodsDto> listGoodsPage(PageParam pageParam){
+        Page<GoodsDto> page = new Page<>(pageParam.getPageIndex(),pageParam.getPageSize());
+        goodsMapper.listGoodsPage(page);
+        PageResult<GoodsDto> result = new PageResult<>();
+        result.setRecords(page.getRecords());
+        result.setTotal(page.getTotal());
+        return result;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(String goodsId){
+        // 先删除商品的sku信息
+        goodsSkuService.deleteByGoodsId(goodsId);
+        goodsDetailMapper.delete(Wrappers.<GoodsDetail>lambdaQuery().eq(GoodsDetail::getGoodsId, goodsId));
+        goodsMapper.deleteById(goodsId);
     }
 }
