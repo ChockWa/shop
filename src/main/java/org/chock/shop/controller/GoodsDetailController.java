@@ -6,6 +6,8 @@ import org.chock.shop.service.GoodsDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @auther: zhuohuahe
  * @date: 2019/11/7 11:07
@@ -24,6 +26,12 @@ public class GoodsDetailController {
     @PostMapping("/update")
     public Result update(@RequestBody GoodsDetail goodsDetail){
         goodsDetailService.update(goodsDetail);
+        return Result.SUCCESS();
+    }
+
+    @PostMapping("/update-list")
+    public Result update(@RequestBody List<GoodsDetail> goodsDetails){
+        goodsDetailService.updateList(goodsDetails);
         return Result.SUCCESS();
     }
 }

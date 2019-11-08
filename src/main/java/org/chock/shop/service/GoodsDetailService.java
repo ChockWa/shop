@@ -38,4 +38,11 @@ public class GoodsDetailService {
     public void update(GoodsDetail goodsDetail){
         goodsDetailMapper.updateById(goodsDetail);
     }
+
+    public void updateList(List<GoodsDetail> goodsDetails){
+        goodsDetails.forEach(e -> {
+            update(e);
+        });
+    }
+
 }
