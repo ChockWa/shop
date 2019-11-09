@@ -1,10 +1,10 @@
 create table s_user (
    uid varchar(36) not null,
-   open_id varchar(64) not null,
+   open_id varchar(64) null,
    name varchar(16) null comment '用户名',
    password varchar(32) null comment '密码',
-   salt varchar(8) null comment '盐',
-   phone varchar(16) null comemnt '电话号码',
+   salt varchar(36) null comment '盐',
+   phone varchar(16) null comment '电话号码',
    email varchar(16) null comment '邮箱',
    status int(1) null comment '状态1-正常',
    gender int(1) null comment '性別1-男2-女',
@@ -52,7 +52,7 @@ create table s_goods_sku (
   goods_id varchar(36) null,
   sku_id varchar(64) null comment 'skuid',
   primary key (id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '商品详情表';
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '商品SKU表';
 
 create table s_shop_cart (
   id varchar(36) not null,

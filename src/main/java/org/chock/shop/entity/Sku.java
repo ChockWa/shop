@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * @auther: zhuohuahe
  * @date: 2019/11/6 15:49
@@ -18,7 +20,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("s_sku")
-public class Sku {
+public class Sku implements Serializable{
+    private static final long serialVersionUID = 1L;
     @TableId(type = IdType.INPUT)
     private String id;
     private String code;

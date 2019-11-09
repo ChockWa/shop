@@ -1,7 +1,8 @@
 package org.chock.shop.config;
 
+import com.google.common.collect.ImmutableSet;
 import org.apache.commons.lang3.StringUtils;
-import org.chock.shop.BizException;
+import org.chock.shop.exception.BizException;
 import org.chock.shop.dto.UserInfo;
 import org.chock.shop.entity.User;
 import org.chock.shop.util.RedisUtils;
@@ -13,8 +14,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @auther: zhuohuahe
@@ -24,7 +23,7 @@ import java.util.List;
 @Component
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
-    private static final List<String> NO_NEED_LOGIN_URIS = Collections.EMPTY_LIST;
+    private static final ImmutableSet<String> NO_NEED_LOGIN_URIS = ImmutableSet.of("/user/mgmtLogin");
     @Autowired
     private RedisUtils redisUtils;
 
@@ -32,7 +31,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 檢查ip
         if(checkNeedLoginOrNot(request.getRequestURI())){
-            String token = request.getHeader("MallAuth");
+            String token = request.getHeader("beautyT");
             User user = (User) redisUtils.get(token);
             if(StringUtils.isBlank(token) || user == null){
                 throw BizException.TOKEN_EXPIRED_ERROR;

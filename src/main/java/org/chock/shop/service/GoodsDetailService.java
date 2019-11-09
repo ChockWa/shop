@@ -2,13 +2,16 @@ package org.chock.shop.service;
 
 import org.chock.shop.dto.GoodsDetailDto;
 import org.chock.shop.entity.GoodsDetail;
+import org.chock.shop.entity.Sku;
 import org.chock.shop.mapper.GoodsDetailMapper;
 import org.chock.shop.mapper.SkuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @auther: zhuohuahe
@@ -25,14 +28,15 @@ public class GoodsDetailService {
     public List<GoodsDetailDto> listGoodsDetail(String goodsId){
         List<GoodsDetailDto> list = goodsDetailMapper.listGoodsDetail(goodsId);
         list.forEach(e -> {
-            String[] skuIds = e.getSkuIds().split(",");
-            List<String> skuNames = new ArrayList<>(skuIds.length);
+            String[] skuIds = e.getGoodsSkuIds().split(",");
+            Map<String,String> goodsSkuMap = new HashMap<>();
             for(String skuId : skuIds){
-                skuNames.add(skuMapper.selectById(skuId).getName());
+                Sku sku = skuMapper.selectById(skuId);
+                goodsSkuMap.put(sku.getName(), sku.getValue());
             }
-            e.setSkuNames(String.join(",", skuNames));
+            e.setGoodsSkuMap(goodsSkuMap);
         });
-        return goodsDetailMapper.listGoodsDetail(goodsId);
+        return list;
     }
 
     public void update(GoodsDetail goodsDetail){

@@ -1,6 +1,7 @@
 package org.chock.shop.controller;
 
 import org.chock.shop.dto.Result;
+import org.chock.shop.dto.UpdateGoodsDetailDto;
 import org.chock.shop.entity.GoodsDetail;
 import org.chock.shop.service.GoodsDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,8 @@ public class GoodsDetailController {
     }
 
     @PostMapping("/update-list")
-    public Result update(@RequestBody List<GoodsDetail> goodsDetails){
-        goodsDetailService.updateList(goodsDetails);
+    public Result update(@RequestBody UpdateGoodsDetailDto updateGoodsDetailDto){
+        goodsDetailService.updateList(updateGoodsDetailDto.getGoodsDetails());
         return Result.SUCCESS();
     }
 }

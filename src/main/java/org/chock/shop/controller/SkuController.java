@@ -1,11 +1,13 @@
 package org.chock.shop.controller;
 
+import org.chock.shop.dto.AddSkuDto;
 import org.chock.shop.dto.Result;
 import org.chock.shop.entity.Sku;
 import org.chock.shop.service.SkuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,8 +28,8 @@ public class SkuController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody List<Sku> skus){
-        skuService.add(skus);
+    public Result add(@RequestBody AddSkuDto addSkuDto){
+        skuService.add(addSkuDto.getSkus());
         return Result.SUCCESS();
     }
 

@@ -24,7 +24,7 @@ public class GoodsDetail {
     @TableId(type = IdType.INPUT)
     private String id;
     private String goodsId;
-    private String skuIds;
+    private String goodsSkuIds;
     private String description;
     private Integer price;
     private Integer stock;

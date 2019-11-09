@@ -2,7 +2,7 @@ package org.chock.shop.service;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import org.chock.shop.BizException;
+import org.chock.shop.exception.BizException;
 import org.chock.shop.constant.ThreeApi;
 import org.chock.shop.dto.Code2SessionResp;
 import org.chock.shop.entity.User;

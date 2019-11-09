@@ -24,4 +24,9 @@ public class UserController {
     public Result wxLogin(String code, WxUserInfo wxUserInfo){
         return Result.SUCCESS().setData("token", userService.wxLogin(wxUserInfo, code));
     }
+
+    @GetMapping("/mgmtLogin")
+    public Result loginMgmt(String email, String password){
+        return Result.SUCCESS().setData("info", userService.loginMgmt(email, password));
+    }
 }

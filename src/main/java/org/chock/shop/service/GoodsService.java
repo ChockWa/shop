@@ -64,7 +64,7 @@ public class GoodsService {
             GoodsDetail goodsDetail = new GoodsDetail();
             goodsDetail.setId(UUIDUtils.getUuid());
             goodsDetail.setGoodsId(goods.getId());
-            goodsDetail.setSkuIds(String.join(",", skuIds));
+            goodsDetail.setGoodsSkuIds(String.join(",", skuIds));
             goodsDetail.setCreateTime(new Date());
             goodsDetail.setStatus(1);
             goodsDetailMapper.insert(goodsDetail);

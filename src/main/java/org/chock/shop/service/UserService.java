@@ -2,7 +2,7 @@ package org.chock.shop.service;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.lang3.StringUtils;
-import org.chock.shop.BizException;
+import org.chock.shop.exception.BizException;
 import org.chock.shop.dto.Code2SessionResp;
 import org.chock.shop.dto.LoginMgmtResp;
 import org.chock.shop.dto.WxUserInfo;
