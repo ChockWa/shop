@@ -7,8 +7,6 @@ import org.chock.shop.service.GoodsDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * @auther: zhuohuahe
  * @date: 2019/11/7 11:07

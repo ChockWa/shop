@@ -8,27 +8,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 /**
  * @auther: zhuohuahe
- * @date: 2019/11/6 09:38
+ * @date: 2019/11/11 17:09
  * @description:
  */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("s_goods")
-public class Goods {
+@TableName("s_receive_address")
+public class ReceiveAddress {
     @TableId(type = IdType.INPUT)
     private String id;
-    private String brandId;
+    private String uid;
+    private String address;
     private String name;
-    private String description;
-    private String cover;
-    private String images;
-    private Integer status;
-    private Date createTime;
-    private Date updateTime;
+    private String phone;
 }

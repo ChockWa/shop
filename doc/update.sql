@@ -27,6 +27,7 @@ create table s_goods (
   brand_id varchar(36) null,
   name varchar(25) null comment '商品名称',
   description varchar(64) null comment '商品描述',
+  cover varchar(128) null comment '封面',
   images varchar(1024) null comment '商品圖片',
   status int(1) null comment '状态1-正常',
   create_time datetime null comment '创建时间',
@@ -56,10 +57,11 @@ create table s_goods_sku (
 
 create table s_shop_cart (
   id varchar(36) not null,
-  user_id varchar(36) null comment '用戶id',
-  goods_detail_id varchar(36) null comment 'skuid',
+  uid varchar(36) null comment '用戶id',
+  goods_detail_id varchar(36) null comment 'goods_detail_id',
   quantity int(2) null comment '數量',
   create_time datetime null comment '創建時間',
+  update_time datetime null comment '更新時間',
   primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '购物车表';
 
@@ -88,7 +90,8 @@ create table s_order (
 create table s_order_detail (
   id bigint auto_increment not null,
   order_no varchar(20) null,
-  sku_id varchar(36) null comment 'skuid',
+  goods_detail_id varchar(36) null comment 'goods_detail_id',
+  price int(5) null comment '单价',
   quantity int(2) null comment '數量',
   amount int(5) null comment '总价',
   create_time datetime null comment '創建時間',
@@ -98,7 +101,6 @@ create table s_order_detail (
 
 create table s_express (
   id varchar(36) not null,
-  order_no varchar(20) null,
   express_no varchar(40) null,
   express_name varchar(8) null,
   create_time datetime null comment '創建時間',

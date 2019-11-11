@@ -12,23 +12,18 @@ import java.util.Date;
 
 /**
  * @auther: zhuohuahe
- * @date: 2019/11/6 09:38
+ * @date: 2019/11/11 17:11
  * @description:
  */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("s_goods")
-public class Goods {
+@TableName("s_express")
+public class Express {
     @TableId(type = IdType.INPUT)
     private String id;
-    private String brandId;
-    private String name;
-    private String description;
-    private String cover;
-    private String images;
-    private Integer status;
+    private String expressNo;
+    private String expressName;
     private Date createTime;
-    private Date updateTime;
 }

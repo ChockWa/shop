@@ -1,7 +1,6 @@
 package org.chock.shop.service;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import org.chock.shop.entity.Goods;
 import org.chock.shop.entity.GoodsSku;
 import org.chock.shop.entity.Sku;
 import org.chock.shop.mapper.GoodsSkuMapper;
@@ -57,5 +56,9 @@ public class SkuService {
             throw new RuntimeException("该sku已在使用，不可删除");
         }
         skuMapper.delete(Wrappers.<Sku>lambdaQuery().eq(Sku::getCode, code));
+    }
+
+    public Sku getById(String skuId){
+        return skuMapper.selectById(skuId);
     }
 }

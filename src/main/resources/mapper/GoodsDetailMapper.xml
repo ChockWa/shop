@@ -8,4 +8,12 @@
     inner join s_goods b on a.goods_id = b.id
     where a.goods_id = #{goodsId}
   </select>
+
+  <select id="getOrderGoodsDetailList" resultType="org.chock.shop.dto.GoodsDetailInfo">
+    select a.sku_ids skuIds, a.price, a.quantity, a.amount, b.name, b.cover
+    from s_order_detail a
+    left join s_goods_detail b on a.goods_detail_id = b.id
+    left join s_goods b on a.goods_id = b.id
+    where a.order_no = #{orderNo}
+  </select>
 </mapper>

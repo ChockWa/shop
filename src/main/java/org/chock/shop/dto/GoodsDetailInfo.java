@@ -4,27 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.chock.shop.entity.Sku;
 
-import java.util.List;
 import java.util.Map;
 
 /**
  * @auther: zhuohuahe
- * @date: 2019/11/6 18:21
+ * @date: 2019/11/11 17:24
  * @description:
  */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GoodsInfo {
-    private String brandId;
-    private String goodsId;
+public class GoodsDetailInfo {
     private String name;
-    private String description;
     private String cover;
-    private String images;
-    boolean status;
-    private Map<String, List<Sku>> skuMap;
+    private Integer price;
+    private Integer quantity;
+    private Integer amount;
+    private String skuIds;
+    private Map<String,String> goodsSkuMap;
 }

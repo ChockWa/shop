@@ -48,5 +48,4 @@ public class GoodsDetailService {
             update(e);
         });
     }
-
 }
