@@ -23,7 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
-    private static final ImmutableSet<String> NO_NEED_LOGIN_URIS = ImmutableSet.of("/user/mgmtLogin");
+    private static final ImmutableSet<String> NO_NEED_LOGIN_URIS = ImmutableSet
+            .of("/user/mgmtLogin")
+            .of("/user/wxLogin");
     @Autowired
     private RedisUtils redisUtils;
 

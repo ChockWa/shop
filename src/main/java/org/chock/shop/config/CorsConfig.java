@@ -43,10 +43,13 @@ public class CorsConfig implements WebMvcConfigurer {
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
-        return restTemplateBuilder
+        RestTemplate restTemplate = restTemplateBuilder
                 .setConnectTimeout(Duration.ofMillis(5000)) //单位ms, 设置连接时间，避免线程过多被阻塞挂起，导致整个系统宕机
                 .setReadTimeout(Duration.ofMillis(5000))
                 .build();
+        //追加原因：https://blog.csdn.net/kinginblue/article/details/52706155
+        restTemplate.getMessageConverters().add(new WxMappingJackson2HttpMessageConverter());
+        return restTemplate;
     }
 
 }

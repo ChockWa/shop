@@ -10,11 +10,13 @@ import org.chock.shop.util.RedisUtils;
 import org.chock.shop.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @auther: zhuohuahe
@@ -25,8 +27,8 @@ import java.util.Map;
 @Slf4j
 public class AuthService {
 
-    // 10天
-    private static final long TOKEN_EXPRIE_DAYS =  60 * 60 * 24 * 10;
+    // 30天
+    private static final long TOKEN_EXPRIE_DAYS =  60 * 60 * 24 * 30;
     @Value("${wx-appid}")
     private String wxAppId;
     @Value("${wx-secret}")
@@ -57,6 +59,9 @@ public class AuthService {
     }
 
     private void code2SessionExceptionHandle(Code2SessionResp resp){
+        if(Objects.isNull(resp.getErrCode())){
+            return;
+        }
         if(-1 == resp.getErrCode() || 40029 == resp.getErrCode()){
             throw BizException.AUTH_FAIL_ERROR;
         }else if (0 == resp.getErrCode()){
