@@ -3,6 +3,7 @@ package org.chock.shop.controller;
 import org.chock.shop.dto.Result;
 import org.chock.shop.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,7 @@ public class FileController {
         return Result.SUCCESS().setData("path", fileService.uploadFile(file));
     }
 
-    @PostMapping("del")
+    @GetMapping("del")
     public Result deleteFile(String path){
         fileService.deleteFile(path);
         return Result.SUCCESS();

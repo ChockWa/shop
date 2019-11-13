@@ -20,7 +20,7 @@ import java.util.Date;
 public class FileService {
 
     private static final String GOODS_IMAGE_PATH = "/files/goods/";
-
+//      private static final String GOODS_IMAGE_PATH = "e:\\goods\\";
     public String uploadFile(MultipartFile multipartFile){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String nowStr = sdf.format(new Date());
@@ -29,6 +29,9 @@ public class FileService {
         String uploadPath = GOODS_IMAGE_PATH + nowStr + "/" + fileName;
         File file = new File(uploadPath);
         try {
+            if(!file.exists()){
+                file.createNewFile();
+            }
             @Cleanup InputStream in  = multipartFile.getInputStream();
             @Cleanup OutputStream os = new FileOutputStream(file);
             // 得到文件流。以文件流的方式输出到新文件
@@ -38,15 +41,16 @@ public class FileService {
             while ((n = in.read(buffer,0,2048)) != -1){
                 os.write(buffer,0,n);
             }
+            return "/group1/goods/" + nowStr + "/" + fileName;
         }catch (IOException e){
             log.error("文件上传失败", e);
         }
-        return "/group1/goods" + nowStr + "/" + fileName;
+        return null;
     }
 
     public void deleteFile(String path){
         // 因為路徑中都帶有group1，所以替換成要files
-        path = path.replace("group1","files");
+        path = path.replace("group1","e:");
         File file = new File(path);
         if(file.exists()){
             file.delete();

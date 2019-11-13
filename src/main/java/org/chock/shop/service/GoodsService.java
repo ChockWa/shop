@@ -37,7 +37,7 @@ public class GoodsService {
         goods.setDescription(goodsInfo.getDescription());
         goods.setStatus(goodsInfo.isStatus()?1:0);
         goods.setCover(goodsInfo.getCover());
-        goods.setImages(goodsInfo.getImages());
+        goods.setImages(StringUtils.isBlank(goodsInfo.getImages())?" ":goodsInfo.getImages());
         if(StringUtils.isBlank(goodsInfo.getGoodsId())){
             goods.setCreateTime(new Date());
             goods.setId(UUIDUtils.getUuid());
