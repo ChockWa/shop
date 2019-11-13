@@ -19,4 +19,10 @@ public class FileController {
     public Result uploadFile(MultipartFile file){
         return Result.SUCCESS().setData("path", fileService.uploadFile(file));
     }
+
+    @PostMapping("del")
+    public Result deleteFile(String path){
+        fileService.deleteFile(path);
+        return Result.SUCCESS();
+    }
 }

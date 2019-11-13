@@ -25,7 +25,7 @@ public class FileService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String nowStr = sdf.format(new Date());
         String originFileName = multipartFile.getOriginalFilename();
-        String fileName = String.valueOf(new Date().getTime()) + originFileName.substring(originFileName.indexOf("."));
+        String fileName = String.valueOf(System.currentTimeMillis()) + originFileName.substring(originFileName.indexOf("."));
         String uploadPath = GOODS_IMAGE_PATH + nowStr + "/" + fileName;
         File file = new File(uploadPath);
         try {
@@ -42,5 +42,14 @@ public class FileService {
             log.error("文件上传失败", e);
         }
         return "/group1/goods" + nowStr + "/" + fileName;
+    }
+
+    public void deleteFile(String path){
+        // 因為路徑中都帶有group1，所以替換成要files
+        path = path.replace("group1","files");
+        File file = new File(path);
+        if(file.exists()){
+            file.delete();
+        }
     }
 }

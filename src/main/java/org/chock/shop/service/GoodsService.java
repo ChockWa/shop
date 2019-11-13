@@ -31,6 +31,7 @@ public class GoodsService {
     public void saveGoods(GoodsInfo goodsInfo){
         // 保存商品信息
         Goods goods = new Goods();
+        goods.setId(goodsInfo.getGoodsId());
         goods.setBrandId(goodsInfo.getBrandId());
         goods.setName(goodsInfo.getName());
         goods.setDescription(goodsInfo.getDescription());

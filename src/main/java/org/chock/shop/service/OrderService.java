@@ -16,6 +16,7 @@ import org.chock.shop.mapper.OrderMapper;
 import org.chock.shop.mapper.ShopCartMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
@@ -40,6 +41,8 @@ public class OrderService {
     private GoodsDetailMapper goodsDetailMapper;
     @Autowired
     private OrderDetailMapper orderDetailMapper;
+    @Autowired
+    private ExpressService expressService;
 
     public PageResult<OrderInfo> listOrdersPage(PageParam pageParam){
         Page<OrderInfo> page = new Page<>(pageParam.getPageIndex(), pageParam.getPageSize());
@@ -56,7 +59,7 @@ public class OrderService {
     }
 
     public void updateByOrderNo(Order order){
-        orderMapper.updateById(order);
+        orderMapper.update(order, Wrappers.<Order>lambdaUpdate().eq(Order::getOrderNo, order.getOrderNo()));
     }
 
     public void addOrder(AddOrderDto addOrderDto){
@@ -108,5 +111,16 @@ public class OrderService {
     private String generateOrderNo(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmsssss");
         return sdf.format(new Date());
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void sendConfirm(String orderNo, String expressName, String expressNo){
+        String expressId = expressService.addExpress(expressName, expressNo);
+        Order order = new Order();
+        order.setOrderNo(orderNo);
+        order.setExpressId(expressId);
+        order.setStatus(OrderStatus.UNRECEIVE.getCode());
+        order.setUpdateTime(new Date());
+        updateByOrderNo(order);
     }
 }
