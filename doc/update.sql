@@ -90,6 +90,7 @@ create table s_order (
 create table s_order_detail (
   id bigint auto_increment not null,
   order_no varchar(20) null,
+  goods_id varchar(36) null,
   goods_detail_id varchar(36) null comment 'goods_detail_id',
   price int(5) null comment '单价',
   quantity int(2) null comment '數量',
@@ -115,6 +116,13 @@ create table s_receive_address (
   phone varchar(16) null,
   primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '快遞單號表';
+
+create table s_guess_like (
+  id bigint auto_increment not null,
+  goods_id varchar(36) null,
+  create_time datetime null comment '創建時間',
+  primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '猜你喜歡表';
 
 create table s_log (
   id bigint auto_increment not null,

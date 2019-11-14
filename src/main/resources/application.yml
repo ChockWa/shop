@@ -53,6 +53,6 @@ wx-appid: wx851145b8f1cdf10d
 wx-secret: f8278c5f904ddb85ff86a04378109c79
 
 dns:
-   api-http: http://www.24beauties.xyz
-   api-https: https://www.24beauties.xyz
+   http: http://www.24beauties.xyz
+   https: https://www.24beauties.xyz
    web-site: https://www.24beauties.xyz/qms

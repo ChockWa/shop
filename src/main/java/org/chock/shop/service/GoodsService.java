@@ -11,6 +11,7 @@ import org.chock.shop.mapper.GoodsDetailMapper;
 import org.chock.shop.mapper.GoodsMapper;
 import org.chock.shop.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 @Service
 public class GoodsService {
 
+    @Value("${dns.https}")
+    private String DNS_HTTPS;
     @Autowired
     private GoodsMapper goodsMapper;
     @Autowired
@@ -100,7 +103,7 @@ public class GoodsService {
 
     public PageResult<GoodsDto> listGoodsPage(PageParam pageParam){
         Page<GoodsDto> page = new Page<>(pageParam.getPageIndex(),pageParam.getPageSize());
-        goodsMapper.listGoodsPage(page);
+        goodsMapper.listGoodsPage(null, page);
         PageResult<GoodsDto> result = new PageResult<>();
         result.setRecords(page.getRecords());
         result.setTotal(page.getTotal());
@@ -113,5 +116,18 @@ public class GoodsService {
         goodsSkuService.deleteByGoodsId(goodsId);
         goodsDetailMapper.delete(Wrappers.<GoodsDetail>lambdaQuery().eq(GoodsDetail::getGoodsId, goodsId));
         goodsMapper.deleteById(goodsId);
+    }
+
+    public PageResult<GoodsInfoItem> getGoodsInfoItemsPage(GoodsInfoItemQuery query, PageParam pageParam){
+        Page<GoodsInfoItem> page = new Page<>(pageParam.getPageIndex(), pageParam.getPageSize());
+        goodsMapper.getGoodsInfoItemsPage(query, page);
+        page.getRecords().forEach(e -> {
+            e.setCover(DNS_HTTPS + e.getCover());
+        });
+
+        PageResult<GoodsInfoItem> result = new PageResult<>();
+        result.setRecords(page.getRecords());
+        result.setTotal(page.getTotal());
+        return result;
     }
 }

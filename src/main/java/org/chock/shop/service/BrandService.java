@@ -2,6 +2,7 @@ package org.chock.shop.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
+import org.chock.shop.constant.Constant;
 import org.chock.shop.dto.PageParam;
 import org.chock.shop.dto.PageResult;
 import org.chock.shop.entity.Brand;
@@ -38,6 +39,10 @@ public class BrandService {
     public PageResult<Brand> listPage(PageParam pageParam){
         Page<Brand> page = new Page<>(pageParam.getPageIndex(), pageParam.getPageSize());
         brandMapper.selectPage(page, null);
+        page.getRecords().forEach(e -> {
+            e.setLogo(Constant.DNS_HTTPS + e.getLogo());
+        });
+
         PageResult<Brand> result = new PageResult<>();
         result.setTotal(page.getTotal());
         result.setRecords(page.getRecords());

@@ -10,10 +10,26 @@
   </select>
 
   <select id="getOrderGoodsDetailList" resultType="org.chock.shop.dto.GoodsDetailInfo">
-    select a.sku_ids skuIds, a.price, a.quantity, a.amount, b.name, b.cover
+    select b.sku_ids skuIds, b.price, a.quantity, a.amount, c.name, c.cover
     from s_order_detail a
     left join s_goods_detail b on a.goods_detail_id = b.id
-    left join s_goods b on a.goods_id = b.id
+    left join s_goods c on b.goods_id = c.id
     where a.order_no = #{orderNo}
+  </select>
+
+  <resultMap type="org.chock.shop.dto.GoodsItemDetail" id="getGoodsItemDetailResult" autoMapping="true">
+    <id property="goodsId" column="id"/>
+    <result property="name" column="name"/>
+    <result property="images" column="images"/>
+    <result property="cover" column="cover"/>
+    <result property="description" column="description"/>
+    <collection property="goodsDetailList" javaType="List" ofType="org.chock.shop.entity.GoodsDetail" autoMapping="true">
+    </collection>
+  </resultMap>
+  <select id="getGoodsItemDetail" resultMap="getGoodsItemDetailResult">
+    select a.id, a.name, a.images, a.cover, a.description ,b.*
+    from s_goods a
+    left join s_goods_detail b on a.id = b.goods_id
+    where a.goods_id = #{goodsId}
   </select>
 </mapper>

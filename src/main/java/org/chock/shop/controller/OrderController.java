@@ -1,14 +1,14 @@
 package org.chock.shop.controller;
 
+import org.chock.shop.dto.AddOrderDto;
 import org.chock.shop.dto.PageParam;
 import org.chock.shop.dto.Result;
 import org.chock.shop.entity.Order;
 import org.chock.shop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -41,6 +41,33 @@ public class OrderController {
     @GetMapping("/send-confirm")
     public Result sendConfirm(String orderNo, String expressName, String expressNo){
         orderService.sendConfirm(orderNo, expressName, expressNo);
+        return Result.SUCCESS();
+    }
+
+
+    /**
+     * 以下为用户端接口
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+
+    /**
+     * 确认下单
+     * @param shopCardIds
+     * @return
+     */
+    @GetMapping("/confirm")
+    public Result orderConfirm(String shopCardIds){
+        return Result.SUCCESS().setData("list", orderService.orderConfirm(Arrays.asList(shopCardIds.split(","))));
+    }
+
+    /**
+     * 下单
+     * @param addOrderDto
+     * @return
+     */
+    @PostMapping("/order")
+    public Result order(@RequestBody AddOrderDto addOrderDto){
+        orderService.addOrder(addOrderDto);
         return Result.SUCCESS();
     }
 }

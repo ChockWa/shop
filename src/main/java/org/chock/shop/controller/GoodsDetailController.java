@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/goods-detail")
 public class GoodsDetailController {
+
     @Autowired
     private GoodsDetailService goodsDetailService;
+
     @GetMapping("/list")
     public Result listGoodsDetail(String goodsId){
         return Result.SUCCESS().setData("list", goodsDetailService.listGoodsDetail(goodsId));
@@ -32,5 +34,15 @@ public class GoodsDetailController {
     public Result update(@RequestBody UpdateGoodsDetailDto updateGoodsDetailDto){
         goodsDetailService.updateList(updateGoodsDetailDto.getGoodsDetails());
         return Result.SUCCESS();
+    }
+
+    /**
+     * 以下是用户端接口
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+
+    @GetMapping("/item-detail")
+    public Result getGoodsItemDetail(String goodsId){
+        return Result.SUCCESS().setData(goodsDetailService.getGoodsItemDetail(goodsId));
     }
 }

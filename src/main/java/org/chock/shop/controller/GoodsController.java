@@ -1,6 +1,7 @@
 package org.chock.shop.controller;
 
 import org.chock.shop.dto.GoodsInfo;
+import org.chock.shop.dto.GoodsInfoItemQuery;
 import org.chock.shop.dto.PageParam;
 import org.chock.shop.dto.Result;
 import org.chock.shop.service.GoodsService;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {
+
     @Autowired
     private GoodsService goodsService;
+
     @PostMapping("/save")
     public Result saveGoods(@RequestBody GoodsInfo goodsInfo){
         goodsService.saveGoods(goodsInfo);
@@ -32,5 +35,16 @@ public class GoodsController {
     public Result delete(String goodsId){
         goodsService.delete(goodsId);
         return Result.SUCCESS();
+    }
+
+
+    /**
+     * 以下为用户端接口
+     * ----------------------------------------------------------------------------------------------------------------
+     */
+
+    @GetMapping("/items")
+    public Result getGoodsInfoItemsPage(GoodsInfoItemQuery query, PageParam pageParam){
+        return Result.SUCCESS().setData(goodsService.getGoodsInfoItemsPage(query, pageParam));
     }
 }

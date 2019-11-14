@@ -12,22 +12,17 @@ import java.util.Date;
 
 /**
  * @auther: zhuohuahe
- * @date: 2019/11/11 13:51
+ * @date: 2019/11/14 10:40
  * @description:
  */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("s_order_detail")
-public class OrderDetail {
+@TableName("s_guess_like")
+public class GuessLike {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private String orderNo;
     private String goodsId;
-    private String goodsDetailId;
-    private Integer quantity;
-    private Integer amount;
     private Date createTime;
-    private Date updateTime;
 }

@@ -13,7 +13,6 @@ import org.chock.shop.exception.BizException;
 import org.chock.shop.mapper.GoodsDetailMapper;
 import org.chock.shop.mapper.OrderDetailMapper;
 import org.chock.shop.mapper.OrderMapper;
-import org.chock.shop.mapper.ShopCartMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +35,7 @@ public class OrderService {
     @Autowired
     private OrderMapper orderMapper;
     @Autowired
-    private ShopCartMapper shopCartMapper;
+    private ShopCartService shopCartService;
     @Autowired
     private GoodsDetailMapper goodsDetailMapper;
     @Autowired
@@ -72,7 +71,7 @@ public class OrderService {
         if(CollectionUtils.isEmpty(addOrderDto.getShopCartIds())){
             throw BizException.ORDER_GOODS_NULL_ERROR;
         }
-        List<ShopCart> shopCarts = shopCartMapper.selectList(Wrappers.<ShopCart>lambdaQuery().in(ShopCart::getId, addOrderDto.getShopCartIds()));
+        List<ShopCart> shopCarts = shopCartService.getListByShopCardIds(addOrderDto.getShopCartIds());
         // 计算总价格
         int totalAmount = 0;
         Map<String, GoodsDetail> goodsDetailMap = new HashMap<>(shopCarts.size());
@@ -103,6 +102,7 @@ public class OrderService {
             orderDetail.setOrderNo(orderNo);
             orderDetail.setQuantity(shopCart.getQuantity());
             orderDetail.setAmount(goodsDetailMap.get(shopCart.getGoodsDetailId()).getPrice() * shopCart.getQuantity());
+            orderDetail.setGoodsId(goodsDetailMap.get(shopCart.getGoodsDetailId()).getGoodsId());
             orderDetail.setCreateTime(new Date());
             orderDetailMapper.insert(orderDetail);
         }
@@ -122,5 +122,9 @@ public class OrderService {
         order.setStatus(OrderStatus.UNRECEIVE.getCode());
         order.setUpdateTime(new Date());
         updateByOrderNo(order);
+    }
+
+    public List<GoodsDetailInfo> orderConfirm(List<String> shopCartIds){
+        return shopCartService.getShopCartDetailList(shopCartIds);
     }
 }

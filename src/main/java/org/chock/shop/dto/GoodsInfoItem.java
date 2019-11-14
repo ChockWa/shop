@@ -5,25 +5,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Map;
-
 /**
  * @auther: zhuohuahe
- * @date: 2019/11/11 17:24
+ * @date: 2019/11/14 11:15
  * @description:
  */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GoodsDetailInfo {
+public class GoodsInfoItem {
     private String goodsId;
-    private String goodsDetailId;
-    private String name;
-    private String cover;
+    private String goodsName;
     private Integer price;
-    private Integer quantity;
-    private Integer amount;
-    private String skuIds;
-    private Map<String,String> goodsSkuMap;
+    private String cover;
+    private Integer saleCount;
 }

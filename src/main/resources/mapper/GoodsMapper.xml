@@ -6,5 +6,34 @@
     select a.*, b.name_cn brandName
     from s_goods a
     inner join s_brand b on a.brand_id = b.id
+    where
+    1 = 1
+    <if test="goodsIds != null">
+      and a.id in
+      <foreach collection="goodsIds" open="(" close=")" separator="," item="item" index="index">
+        #{item}
+      </foreach>
+    </if>
+  </select>
+
+  <select id="getGoodsInfoItemsPage" resultType="org.chock.shop.dto.GoodsInfoItem">
+    select a.id goodsId, a.cover, a.name, b.price
+    from s_goods a
+    left join s_goods_detail b on a.id = b.goods_id
+    <where>
+      <if test="query.brandId != null and query.brandId != ''">
+        and a.brand_id = #{query.brandId}
+      </if>
+      <if test="query.name != null and query.name != ''">
+        and a.name like concat('%',#{query.name},'%')
+      </if>
+      <if test="query.goodsIds != null">
+        and a.id in
+        <foreach collection="query.goodsIds" index="index" separator="," item="item" close=")" open="(">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+    group by b.goods_id order by a.create_time desc
   </select>
 </mapper>

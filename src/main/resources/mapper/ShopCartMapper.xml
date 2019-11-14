@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.chock.shop.mapper.ShopCartMapper">
+
+  <select id="getShopCartList" resultType="org.chock.shop.dto.GoodsDetailInfo">
+    select a.quantity,
+    b.id goodsDetailId, b.skuIds, b.price,
+    a.name, a.cover, a.id goodsId
+    from s_shop_cart a
+    left join s_goods_detail b on a.goods_detail_id = b.id
+    left join s_goods c on c.id = b.goods_id
+    where a.uid = #{uid}
+    <if test="shopCartIds != null">
+      and a.id in
+      <foreach collection="shopCartIds" open="(" close=")" item="item" separator="," index="index">
+        #{item}
+      </foreach>
+    </if>
+    order by a.update_time desc
+  </select>
+</mapper>

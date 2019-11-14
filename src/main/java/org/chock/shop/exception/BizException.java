@@ -17,6 +17,7 @@ public class BizException extends RuntimeException {
     public static BizException RECEIVE_ADDRESS_NULL_ERROR = new BizException(1004, "请选择收货地址");
     public static BizException ORDER_GOODS_NULL_ERROR = new BizException(1005, "请选择需要下单的商品");
     public static BizException AMOUNT_NOT_EQUAL_ERROR = new BizException(1006, "下单失败，金额不一致");
+    public static BizException GOODS_EXIST_GUESS_LIKE_ERROR = new BizException(1007, "该商品已添加过");
     public BizException(int code, String message) {
         super(message);
         this.code = code;
