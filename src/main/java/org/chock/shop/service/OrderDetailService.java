@@ -43,8 +43,8 @@ public class OrderDetailService {
         orderDetailInfo.setReceiveAddress(receiveAddressMapper.selectById(order.getAddressId()));
         List<GoodsDetailInfo> detailInfos =  goodsDetailMapper.getOrderGoodsDetailList(orderNo);
         detailInfos.forEach(e -> {
-            Map<String, String> goodsSkuMap = new HashMap<>();
             String[] skuIds = e.getSkuIds().split(",");
+            Map<String, String> goodsSkuMap = new HashMap<>(skuIds.length);
             for(String s : skuIds){
                 Sku sku = skuService.getById(s);
                 goodsSkuMap.put(sku.getName(), sku.getValue());
