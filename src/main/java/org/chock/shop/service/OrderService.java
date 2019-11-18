@@ -1,28 +1,21 @@
 package org.chock.shop.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.chock.shop.constant.OrderStatus;
 import org.chock.shop.dto.*;
-import org.chock.shop.entity.GoodsDetail;
-import org.chock.shop.entity.Order;
-import org.chock.shop.entity.OrderDetail;
-import org.chock.shop.entity.ShopCart;
+import org.chock.shop.entity.*;
 import org.chock.shop.exception.BizException;
-import org.chock.shop.mapper.GoodsDetailMapper;
-import org.chock.shop.mapper.OrderDetailMapper;
-import org.chock.shop.mapper.OrderMapper;
+import org.chock.shop.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @auther: zhuohuahe
@@ -42,6 +35,12 @@ public class OrderService {
     private OrderDetailMapper orderDetailMapper;
     @Autowired
     private ExpressService expressService;
+    @Autowired
+    private ReceiveAddressStaticMapper receiveAddressStaticMapper;
+    @Autowired
+    private ReceiveAddressMapper receiveAddressMapper;
+    @Autowired
+    private OrderDetailService orderDetailService;
 
     public PageResult<OrderInfo> listOrdersPage(PageParam pageParam){
         Page<OrderInfo> page = new Page<>(pageParam.getPageIndex(), pageParam.getPageSize());
@@ -106,6 +105,10 @@ public class OrderService {
             orderDetail.setCreateTime(new Date());
             orderDetailMapper.insert(orderDetail);
         }
+
+        // 生成靜態地址
+        ReceiveAddress receiveAddress = receiveAddressMapper.selectById(addOrderDto.getReceiveAddressId());
+        receiveAddressStaticMapper.insert(BeanUtil.toBean(receiveAddress, ReceiveAddressStatic.class));
     }
 
     private String generateOrderNo(){
@@ -127,4 +130,20 @@ public class OrderService {
     public List<GoodsDetailInfo> orderConfirm(List<String> shopCartIds){
         return shopCartService.getShopCartDetailList(shopCartIds);
     }
+
+    public PageResult<OrderDetailInfo> getOrderListByStatusPage(Integer orderStatus, PageParam pageParam){
+        Page<Order> page = new Page<>(pageParam.getPageIndex(), pageParam.getPageSize());
+        orderMapper.selectPage(page, Wrappers.<Order>lambdaQuery().eq(Order::getUid, UserInfo.get().getUid())
+                .eq(Objects.nonNull(orderStatus), Order::getStatus, orderStatus));
+        List<OrderDetailInfo> list = new ArrayList<>(pageParam.getPageSize());
+        for(int i = 0; i < page.getRecords().size(); i++){
+            list.add(orderDetailService.getOrderDetailInfo(page.getRecords().get(i).getOrderNo()));
+        }
+
+        PageResult<OrderDetailInfo> result = new PageResult<>();
+        result.setRecords(list);
+        result.setTotal(page.getTotal());
+        return result;
+    }
+
 }

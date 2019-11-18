@@ -117,6 +117,15 @@ create table s_receive_address (
   primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '快遞單號表';
 
+create table s_receive_address_static (
+  id varchar(36) not null,
+  uid varchar(36) null,
+  address varchar(128) null,
+  name varchar(10) null,
+  phone varchar(16) null,
+  primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '快遞單號表';
+
 create table s_guess_like (
   id bigint auto_increment not null,
   goods_id varchar(36) null,

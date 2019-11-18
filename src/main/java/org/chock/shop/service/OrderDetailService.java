@@ -21,15 +21,13 @@ import java.util.Map;
 @Service
 public class OrderDetailService {
     @Autowired
-    private OrderDetailMapper orderDetailMapper;
-    @Autowired
     private GoodsDetailMapper goodsDetailMapper;
     @Autowired
     private OrderService orderService;
     @Autowired
     private ExpressMapper expressMapper;
     @Autowired
-    private ReceiveAddressMapper receiveAddressMapper;
+    private ReceiveAddressStaticMapper receiveAddressStaticMapper;
     @Autowired
     private SkuService skuService;
 
@@ -40,7 +38,7 @@ public class OrderDetailService {
         OrderDetailInfo orderDetailInfo = new OrderDetailInfo();
         Order order = orderService.getByOrderNo(orderNo);
         orderDetailInfo.setExpress(expressMapper.selectById(order.getExpressId()));
-        orderDetailInfo.setReceiveAddress(receiveAddressMapper.selectById(order.getAddressId()));
+        orderDetailInfo.setReceiveAddressStatic(receiveAddressStaticMapper.selectById(order.getAddressId()));
         List<GoodsDetailInfo> detailInfos =  goodsDetailMapper.getOrderGoodsDetailList(orderNo);
         detailInfos.forEach(e -> {
             String[] skuIds = e.getSkuIds().split(",");

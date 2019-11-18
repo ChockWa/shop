@@ -70,4 +70,9 @@ public class OrderController {
         orderService.addOrder(addOrderDto);
         return Result.SUCCESS();
     }
+
+    @GetMapping("/orders")
+    public Result orders(Integer orderStatus, PageParam pageParam){
+        return Result.SUCCESS().setData(orderService.getOrderListByStatusPage(orderStatus, pageParam));
+    }
 }

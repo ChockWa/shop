@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.chock.shop.entity.Express;
 import org.chock.shop.entity.ReceiveAddress;
+import org.chock.shop.entity.ReceiveAddressStatic;
 
 import java.util.List;
 
@@ -22,6 +23,6 @@ public class OrderDetailInfo {
     private String orderNo;
     private List<GoodsDetailInfo> goodsList;
     private Express express;
-    private ReceiveAddress receiveAddress;
+    private ReceiveAddressStatic receiveAddressStatic;
     private Integer totalAmount;
 }
