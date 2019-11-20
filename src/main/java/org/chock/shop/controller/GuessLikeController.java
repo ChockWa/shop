@@ -35,4 +35,15 @@ public class GuessLikeController {
         guessLikeService.delete(goodsId);
         return Result.SUCCESS();
     }
+
+    /**
+     * 以下是用户端接口
+     * -------------------------------------------------------------------------------------------------------
+     */
+
+    @GetMapping("/items")
+    public Result items(){
+        return Result.SUCCESS().setData("list", guessLikeService.getGuessLikeGoodsItems());
+    }
+
 }

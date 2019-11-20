@@ -18,32 +18,37 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
-    @PostMapping("add")
+    @PostMapping("/add")
     public Result add(@RequestBody Brand brand){
         brandService.add(brand);
         return Result.SUCCESS();
     }
 
-    @PostMapping("update")
+    @PostMapping("/update")
     public Result update(@RequestBody Brand brand){
         brandService.update(brand);
         return Result.SUCCESS();
     }
 
-    @GetMapping("listPage")
+    @GetMapping("/listPage")
     public Result listPage(PageParam pageParam){
         return Result.SUCCESS().setData("list", brandService.listPage(pageParam));
     }
 
-    @GetMapping("list")
-    public Result list(){
-        return Result.SUCCESS().setData("list", brandService.list());
-    }
-
-    @GetMapping("del")
+    @GetMapping("/del")
     public Result del(String brandId){
         brandService.delete(brandId);
         return Result.SUCCESS();
+    }
+
+    /**
+     * 以下是用户端接口
+     * -----------------------------------------------------------------------------------------------------
+     */
+
+    @GetMapping("/list")
+    public Result list(){
+        return Result.SUCCESS().setData("list", brandService.list());
     }
 
 }

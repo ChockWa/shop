@@ -18,12 +18,12 @@ public class FileController {
 
     @PostMapping("upload")
     public Result uploadFile(MultipartFile file){
-        return Result.SUCCESS().setData("path", fileService.uploadFile(file));
+        return Result.SUCCESS().setData("path", fileService.uploadFileWin(file));
     }
 
     @GetMapping("del")
     public Result deleteFile(String path){
-        fileService.deleteFile(path);
+        fileService.deleteFileWin(path);
         return Result.SUCCESS();
     }
 }
