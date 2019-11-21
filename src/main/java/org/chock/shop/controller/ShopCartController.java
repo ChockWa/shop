@@ -19,18 +19,24 @@ public class ShopCartController {
     @Autowired
     private ShopCartService shopCartService;
 
-    @GetMapping("list")
+    /**
+     * 以下是用户端接口
+     *----------------------------------------------------------------------------------------------------
+     * @return
+     */
+
+    @GetMapping("/list")
     public Result getShopCartList(){
         return Result.SUCCESS().setData("list", shopCartService.getShopCartDetailList(null));
     }
 
-    @GetMapping("add-back-list")
+    @GetMapping("/add-back-list")
     public Result addShopCartBackList(String goodsDetailId, Integer quantity){
         shopCartService.addShopCart(goodsDetailId, quantity);
         return Result.SUCCESS().setData("list", shopCartService.getShopCartDetailList(null));
     }
 
-    @GetMapping("add")
+    @GetMapping("/add")
     public Result addShopCart(String goodsDetailId, Integer quantity){
         shopCartService.addShopCart(goodsDetailId, quantity);
         return Result.SUCCESS();

@@ -25,4 +25,7 @@ public class ReceiveAddressStatic {
     private String address;
     private String name;
     private String phone;
+    private String province;
+    private String city;
+    private String district;
 }

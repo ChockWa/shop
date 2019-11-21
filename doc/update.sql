@@ -111,6 +111,9 @@ create table s_express (
 create table s_receive_address (
   id varchar(36) not null,
   uid varchar(36) null,
+  province varchar(5) null,
+  city varchar(5) null,
+  district varchar(5) null,
   address varchar(128) null,
   name varchar(10) null,
   phone varchar(16) null,
@@ -120,6 +123,9 @@ create table s_receive_address (
 create table s_receive_address_static (
   id varchar(36) not null,
   uid varchar(36) null,
+  province varchar(5) null,
+  city varchar(5) null,
+  district varchar(5) null,
   address varchar(128) null,
   name varchar(10) null,
   phone varchar(16) null,
