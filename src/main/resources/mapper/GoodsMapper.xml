@@ -24,8 +24,8 @@
       <if test="query.brandId != null and query.brandId != ''">
         and a.brand_id = #{query.brandId}
       </if>
-      <if test="query.name != null and query.name != ''">
-        and a.name like concat('%',#{query.name},'%')
+      <if test="query.searchContent != null and query.searchContent != ''">
+        and a.name like concat('%',#{query.searchContent},'%')
       </if>
       <if test="query.goodsIds != null">
         and a.id in

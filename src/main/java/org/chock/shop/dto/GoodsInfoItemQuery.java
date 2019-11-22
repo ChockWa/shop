@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 public class GoodsInfoItemQuery {
-    private String name;
+    private String searchContent;
     private String brandId;
     private List<String> goodsIds;
 }

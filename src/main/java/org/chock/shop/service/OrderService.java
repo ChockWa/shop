@@ -3,6 +3,7 @@ package org.chock.shop.service;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.var;
 import org.apache.commons.lang3.StringUtils;
 import org.chock.shop.constant.OrderStatus;
 import org.chock.shop.dto.*;
@@ -127,8 +128,14 @@ public class OrderService {
         updateByOrderNo(order);
     }
 
-    public List<GoodsDetailInfo> orderConfirm(List<String> shopCartIds){
-        return shopCartService.getShopCartDetailList(shopCartIds);
+    public OrderConfirmInfo orderConfirm(List<String> shopCartIds){
+        OrderConfirmInfo confirmInfo = new OrderConfirmInfo();
+        var addressList = receiveAddressMapper.selectList(Wrappers.<ReceiveAddress>lambdaQuery().eq(ReceiveAddress::getUid, UserInfo.get().getUid()));
+        confirmInfo.setReceiveAddress(CollectionUtils.isEmpty(addressList) ? null : addressList.get(0));
+        var details = shopCartService.getShopCartDetailList(shopCartIds);
+        confirmInfo.setGoodsDetailInfos(details);
+        confirmInfo.setTotalAmount(details.stream().map(GoodsDetailInfo::getAmount).reduce(0, Integer::sum));
+        return confirmInfo;
     }
 
     public PageResult<OrderDetailInfo> getOrderListByStatusPage(Integer orderStatus, PageParam pageParam){
