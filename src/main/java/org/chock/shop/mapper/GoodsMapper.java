@@ -2,6 +2,7 @@ package org.chock.shop.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.chock.shop.dto.GoodsDto;
@@ -13,6 +14,6 @@ import java.util.List;
 
 @Mapper
 public interface GoodsMapper extends BaseMapper<Goods> {
-    IPage<GoodsDto> listGoodsPage(@Param("goodsIds") List<String> goodsIds, @Param("page") IPage<GoodsDto> page);
-    IPage<GoodsInfoItem> getGoodsInfoItemsPage(@Param("query")GoodsInfoItemQuery query, @Param("page") IPage<GoodsInfoItem> page);
+    IPage<GoodsDto> listGoodsPage(@Param("page") Page<GoodsDto> page, @Param("goodsIds") List<String> goodsIds);
+    IPage<GoodsInfoItem> getGoodsInfoItemsPage(@Param("query")GoodsInfoItemQuery query, @Param("page") Page<GoodsInfoItem> page);
 }

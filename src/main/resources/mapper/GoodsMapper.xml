@@ -8,7 +8,7 @@
     inner join s_brand b on a.brand_id = b.id
     where
     1 = 1
-    <if test="goodsIds != null">
+    <if test="goodsIds != null and goodsIds.size() > 0">
       and a.id in
       <foreach collection="goodsIds" open="(" close=")" separator="," item="item" index="index">
         #{item}

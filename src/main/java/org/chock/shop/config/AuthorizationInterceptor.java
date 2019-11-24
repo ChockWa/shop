@@ -25,7 +25,9 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
     private static final ImmutableSet<String> NO_NEED_LOGIN_URIS = ImmutableSet
             .of("/user/mgmtLogin")
-            .of("/user/wxLogin");
+            .of("/user/wxLogin")
+            .of("/file/uploadFile")
+            .of("/file/upload");
     @Autowired
     private RedisUtils redisUtils;
 

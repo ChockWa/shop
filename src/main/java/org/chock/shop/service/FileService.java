@@ -1,14 +1,28 @@
 package org.chock.shop.service;
 
 
+import com.alibaba.fastjson.JSON;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
+import org.chock.shop.dto.SmmsResp;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @auther: zhuohuahe
@@ -20,8 +34,9 @@ import java.util.Date;
 public class FileService {
 
     private static final String GOODS_IMAGE_PATH = "/files/goods/";
-    private static final String GOODS_IMAGE_PATH_WIN = "e:\\goods\\";
-
+    private static final String GOODS_IMAGE_PATH_WIN = "D:\\chockwa-projects\\front\\shop-mgmt\\src\\views\\brand\\images\\";
+    @Autowired
+    private RestTemplate restTemplate;
     public String uploadFile(MultipartFile multipartFile){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String nowStr = sdf.format(new Date());
@@ -63,7 +78,7 @@ public class FileService {
         String nowStr = sdf.format(new Date());
         String originFileName = multipartFile.getOriginalFilename();
         String fileName = String.valueOf(System.currentTimeMillis()) + originFileName.substring(originFileName.indexOf("."));
-        String uploadPath = GOODS_IMAGE_PATH_WIN + nowStr + "\\" + fileName;
+        String uploadPath = GOODS_IMAGE_PATH_WIN  + fileName;
         File file = new File(uploadPath);
         try {
             if(!file.exists()){
@@ -78,7 +93,7 @@ public class FileService {
 //            while ((n = in.read(buffer,0,2048)) != -1){
 //                os.write(buffer,0,n);
 //            }
-            return "e:\\goods\\" + nowStr + "\\" + fileName;
+            return GOODS_IMAGE_PATH_WIN + fileName;
         }catch (IOException e){
             log.error("文件上传失败", e);
         }
@@ -91,5 +106,43 @@ public class FileService {
         if(file.exists()){
             file.delete();
         }
+    }
+
+    public String uploadImage(MultipartFile file) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            MediaType type = MediaType.parseMediaType("multipart/form-data");
+            headers.setContentType(type);
+            headers.add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36");
+            //图片参数
+            ByteArrayResource resource = new ByteArrayResource(file.getBytes()){
+                @Override
+                public String getFilename() {
+                    return UUID.randomUUID().toString() + ".jpg";
+                }
+            };
+            MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
+            form.add("smfile", resource);
+            //用HttpEntity封装整个请求报文
+            HttpEntity<MultiValueMap<String, Object>> files = new HttpEntity<>(form, headers);
+            String result = restTemplate.postForObject("https://sm.ms/api/v2/upload", files, String.class);
+            SmmsResp smmsResp = JSON.parseObject(result, SmmsResp.class);
+            if(smmsResp.getMessage().contains("this image exists at")){
+                String message = smmsResp.getMessage();
+                return smmsResp.getMessage().substring(message.indexOf("https://"), message.length());
+            }
+            return smmsResp.getData().getUrl();
+        }catch (Exception e) {
+            log.error("上传失败", e);
+        }
+        return null;
+//        try {
+//            SmMsUploadResponseDto smMsUploadResponseDto = MAPPER.readValue(result, SmMsUploadResponseDto.class);
+//            if (smMsUploadResponseDto.getSuccess()) {
+//                return smMsUploadResponseDto.getData().getUrl();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }

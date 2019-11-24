@@ -103,7 +103,7 @@ public class GoodsService {
 
     public PageResult<GoodsDto> listGoodsPage(PageParam pageParam){
         Page<GoodsDto> page = new Page<>(pageParam.getPageIndex(),pageParam.getPageSize());
-        goodsMapper.listGoodsPage(null, page);
+        goodsMapper.listGoodsPage(page, Collections.EMPTY_LIST);
         PageResult<GoodsDto> result = new PageResult<>();
         result.setRecords(page.getRecords());
         result.setTotal(page.getTotal());

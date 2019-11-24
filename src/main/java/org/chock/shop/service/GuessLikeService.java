@@ -2,6 +2,7 @@ package org.chock.shop.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.chock.shop.dto.GoodsDto;
 import org.chock.shop.dto.GoodsInfoItem;
 import org.chock.shop.dto.GoodsInfoItemQuery;
@@ -35,7 +36,8 @@ public class GuessLikeService {
         if(CollectionUtils.isEmpty(likes)){
             return null;
         }
-        return goodsMapper.listGoodsPage(likes.stream().map(GuessLike::getGoodsId).collect(Collectors.toList()), null).getRecords();
+        Page<GoodsDto> page = new Page<>(1, likes.size());
+        return goodsMapper.listGoodsPage(page, likes.stream().map(GuessLike::getGoodsId).collect(Collectors.toList())).getRecords();
     }
 
     public void add(String goodsId){

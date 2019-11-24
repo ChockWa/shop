@@ -26,4 +26,9 @@ public class FileController {
         fileService.deleteFileWin(path);
         return Result.SUCCESS();
     }
+
+    @PostMapping("/uploadFile")
+    public Result uploadImage(MultipartFile file){
+        return Result.SUCCESS().setData("path", fileService.uploadImage(file));
+    }
 }
