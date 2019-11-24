@@ -63,7 +63,8 @@ public class GuessLikeService {
         List<GuessLike> likes = guessLikeMapper.selectList(null);
         GoodsInfoItemQuery query = new GoodsInfoItemQuery();
         query.setGoodsIds(likes.stream().map(GuessLike::getGoodsId).collect(Collectors.toList()));
-        IPage<GoodsInfoItem> page = goodsMapper.getGoodsInfoItemsPage(query, null);
+        Page<GoodsInfoItem> page = new Page<>(1, likes.size());
+        goodsMapper.getGoodsInfoItemsPage(page, query);
         return page.getRecords();
     }
 }

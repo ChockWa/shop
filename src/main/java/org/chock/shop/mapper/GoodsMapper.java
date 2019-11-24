@@ -15,5 +15,5 @@ import java.util.List;
 @Mapper
 public interface GoodsMapper extends BaseMapper<Goods> {
     IPage<GoodsDto> listGoodsPage(@Param("page") Page<GoodsDto> page, @Param("goodsIds") List<String> goodsIds);
-    IPage<GoodsInfoItem> getGoodsInfoItemsPage(@Param("query")GoodsInfoItemQuery query, @Param("page") Page<GoodsInfoItem> page);
+    IPage<GoodsInfoItem> getGoodsInfoItemsPage(@Param("page") Page<GoodsInfoItem> page, @Param("query")GoodsInfoItemQuery query);
 }

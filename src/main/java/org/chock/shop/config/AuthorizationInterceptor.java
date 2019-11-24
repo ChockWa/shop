@@ -23,11 +23,12 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
-    private static final ImmutableSet<String> NO_NEED_LOGIN_URIS = ImmutableSet
-            .of("/user/mgmtLogin")
-            .of("/user/wxLogin")
-            .of("/file/uploadFile")
-            .of("/file/upload");
+    private static final ImmutableSet<String> NO_NEED_LOGIN_URIS = ImmutableSet.<String>builder()
+            .add("/user/mgmtLogin")
+            .add("/user/wxLogin")
+            .add("/file/uploadFile")
+            .add("/file/upload")
+            .build();
     @Autowired
     private RedisUtils redisUtils;
 
@@ -35,11 +36,11 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 檢查ip
         if(checkNeedLoginOrNot(request.getRequestURI())){
-            String token = request.getHeader("beautyT");
-            User user = (User) redisUtils.get(token);
-            if(StringUtils.isBlank(token) || user == null){
+            String token = request.getHeader("BeautyT");
+            if(StringUtils.isBlank(token)){
                 throw BizException.TOKEN_EXPIRED_ERROR;
             }
+            User user = (User) redisUtils.get(token);
             UserInfo.set(user);
         }
         return true;

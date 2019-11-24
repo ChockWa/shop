@@ -1,6 +1,5 @@
 package org.chock.shop.controller;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
 import org.chock.shop.dto.Result;
 import org.chock.shop.service.GuessLikeService;
 import org.springframework.beans.factory.annotation.Autowired;

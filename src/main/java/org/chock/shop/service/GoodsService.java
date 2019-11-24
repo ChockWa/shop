@@ -120,7 +120,7 @@ public class GoodsService {
 
     public PageResult<GoodsInfoItem> getGoodsInfoItemsPage(GoodsInfoItemQuery query, PageParam pageParam){
         Page<GoodsInfoItem> page = new Page<>(pageParam.getPageIndex(), pageParam.getPageSize());
-        goodsMapper.getGoodsInfoItemsPage(query, page);
+        goodsMapper.getGoodsInfoItemsPage(page, query);
         page.getRecords().forEach(e -> {
             e.setCover(DNS_HTTPS + e.getCover());
         });

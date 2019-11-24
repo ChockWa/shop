@@ -17,7 +17,7 @@
   </select>
 
   <select id="getGoodsInfoItemsPage" resultType="org.chock.shop.dto.GoodsInfoItem">
-    select a.id goodsId, a.cover, a.name, b.price
+    select a.id goodsId, a.cover, a.name goodsName, b.price
     from s_goods a
     left join s_goods_detail b on a.id = b.goods_id
     <where>
