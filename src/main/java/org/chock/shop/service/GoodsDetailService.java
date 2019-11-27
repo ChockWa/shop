@@ -12,10 +12,7 @@ import org.chock.shop.mapper.SkuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -67,7 +64,14 @@ public class GoodsDetailService {
         List<GoodsSku> goodsSkus = goodsSkuMapper.selectList(Wrappers.<GoodsSku>lambdaQuery().eq(GoodsSku::getGoodsId, goodsId));
         List<Sku> skus = skuMapper.selectList(Wrappers.<Sku>lambdaQuery().in(Sku::getId, goodsSkus.stream().map(GoodsSku::getSkuId).collect(Collectors.toList())));
         Map<String, List<Sku>> skuListMap = skus.stream().collect(Collectors.groupingBy(Sku::getName));
-        itemDetail.setGoodsSkuMap(skuListMap);
+        List<Map<String, Object>> skuList = new ArrayList<>(skuListMap.size());
+        for(Map.Entry<String, List<Sku>> entry : skuListMap.entrySet()){
+            Map<String, Object> map = new HashMap<>(2);
+            map.put("name", entry.getKey());
+            map.put("list", entry.getValue());
+            skuList.add(map);
+        }
+        itemDetail.setGoodsSkuList(skuList);
         return itemDetail;
     }
 }

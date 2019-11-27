@@ -27,5 +27,5 @@ public class GoodsItemDetail {
     private String description;
     private Integer price;
     private List<GoodsDetail> goodsDetailList;
-    private Map<String, List<Sku>> goodsSkuMap;
+    private List<Map<String, Object>> goodsSkuList;
 }
