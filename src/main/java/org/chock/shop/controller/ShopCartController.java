@@ -42,4 +42,10 @@ public class ShopCartController {
         return Result.SUCCESS();
     }
 
+    @GetMapping("/delete")
+    public Result delete(String shopCardIds){
+        shopCartService.delete(shopCardIds.split(","));
+        return Result.SUCCESS().setData("list", shopCartService.getShopCartDetailList(null));
+    }
+
 }

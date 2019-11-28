@@ -76,4 +76,8 @@ public class ShopCartService {
         return shopCartList;
     }
 
+    public void delete(String[] shopCardIds){
+        shopCartMapper.delete(Wrappers.<ShopCart>lambdaQuery().in(ShopCart::getId, shopCardIds));
+    }
+
 }
