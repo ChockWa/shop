@@ -30,6 +30,6 @@
     select a.id, a.name, a.images, a.cover, a.description ,b.*
     from s_goods a
     left join s_goods_detail b on a.id = b.goods_id
-    where a.goods_id = #{goodsId}
+    where a.id = #{goodsId}
   </select>
 </mapper>
