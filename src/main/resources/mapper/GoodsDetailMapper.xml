@@ -18,7 +18,7 @@
   </select>
 
   <resultMap type="org.chock.shop.dto.GoodsItemDetail" id="getGoodsItemDetailResult" autoMapping="true">
-    <id property="goodsId" column="id"/>
+    <id property="goodsId" column="goodsId"/>
     <result property="name" column="name"/>
     <result property="images" column="images"/>
     <result property="cover" column="cover"/>
@@ -27,7 +27,7 @@
     </collection>
   </resultMap>
   <select id="getGoodsItemDetail" resultMap="getGoodsItemDetailResult">
-    select a.id, a.name, a.images, a.cover, a.description ,b.*
+    select a.id goodsId, a.name, a.images, a.cover, a.description ,b.*
     from s_goods a
     left join s_goods_detail b on a.id = b.goods_id
     where a.id = #{goodsId}
