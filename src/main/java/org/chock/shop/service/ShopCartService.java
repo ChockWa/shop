@@ -61,7 +61,9 @@ public class ShopCartService {
     public List<GoodsDetailInfo> getShopCartDetailList(List<String> shopCartIds){
         List<GoodsDetailInfo> shopCartList = shopCartMapper.getShopCartList(UserInfo.get().getUid(), shopCartIds);
         Set<String> skuIdSet = new HashSet<>();
-        shopCartList.stream().map(GoodsDetailInfo::getSkuIds).map(e -> skuIdSet.addAll(Sets.newHashSet(e.split(","))));
+        shopCartList.forEach(e -> {
+            skuIdSet.addAll(Arrays.asList(e.getSkuIds().split(",")));
+        });
         List<Sku> skus = skuMapper.selectList(Wrappers.<Sku>lambdaQuery().in(Sku::getId, skuIdSet));
         shopCartList.forEach(e -> {
             e.setAmount(e.getPrice() * e.getQuantity());
