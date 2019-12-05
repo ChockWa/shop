@@ -4,7 +4,7 @@
 
   <select id="getShopCartList" resultType="org.chock.shop.dto.GoodsDetailInfo">
     select a.id shopCartId, a.quantity,
-    b.price,b.goods_sku_ids skuIds
+    b.price,b.goods_sku_ids skuIds,
     c.name, c.cover, c.id goodsId
     from s_shop_cart a
     left join s_goods_detail b on a.goods_detail_id = b.id
