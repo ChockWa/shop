@@ -52,12 +52,22 @@ public class OrderController {
 
     /**
      * 确认下单
+     * @param orderToken
+     * @return
+     */
+    @GetMapping("/orderConfirmInfo")
+    public Result orderConfirmInfo(String orderToken){
+        return Result.SUCCESS().setData(orderService.orderConfirmInfo(orderToken));
+    }
+
+    /**
+     * 生成下单token
      * @param shopCardIds
      * @return
      */
-    @GetMapping("/confirm")
-    public Result orderConfirm(String shopCardIds){
-        return Result.SUCCESS().setData("list", orderService.orderConfirm(Arrays.asList(shopCardIds.split(","))));
+    @PostMapping("/genOrderToken")
+    public Result generateOrderConfirmToken(String shopCardIds){
+        return Result.SUCCESS().setData("token", orderService.generateOrderConfirmToken(Arrays.asList(shopCardIds.split(","))));
     }
 
     /**

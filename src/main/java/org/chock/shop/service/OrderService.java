@@ -10,6 +10,8 @@ import org.chock.shop.dto.*;
 import org.chock.shop.entity.*;
 import org.chock.shop.exception.BizException;
 import org.chock.shop.mapper.*;
+import org.chock.shop.util.RedisUtils;
+import org.chock.shop.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,8 @@ import java.util.*;
  */
 @Service
 public class OrderService {
+
+    private static final long ORDER_CONFIRM_TOKEN_EXPIRE_SECOND = 60 * 15;
 
     @Autowired
     private OrderMapper orderMapper;
@@ -42,6 +46,8 @@ public class OrderService {
     private ReceiveAddressMapper receiveAddressMapper;
     @Autowired
     private OrderDetailService orderDetailService;
+    @Autowired
+    private RedisUtils redisUtils;
 
     public PageResult<OrderInfo> listOrdersPage(PageParam pageParam){
         Page<OrderInfo> page = new Page<>(pageParam.getPageIndex(), pageParam.getPageSize());
@@ -61,17 +67,19 @@ public class OrderService {
         orderMapper.update(order, Wrappers.<Order>lambdaUpdate().eq(Order::getOrderNo, order.getOrderNo()));
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void addOrder(AddOrderDto addOrderDto){
         if(addOrderDto == null){
             throw BizException.ORDER_DATA_NULL_ERROR;
         }
+        List<String> shopCartIds = (List<String>) redisUtils.get(addOrderDto.getOrderToken());
+        if(shopCartIds == null){
+            throw BizException.ORDER_CONFIRM_EXPIRED;
+        }
         if(StringUtils.isBlank(addOrderDto.getReceiveAddressId())){
             throw BizException.RECEIVE_ADDRESS_NULL_ERROR;
         }
-        if(CollectionUtils.isEmpty(addOrderDto.getShopCartIds())){
-            throw BizException.ORDER_GOODS_NULL_ERROR;
-        }
-        List<ShopCart> shopCarts = shopCartService.getListByShopCardIds(addOrderDto.getShopCartIds());
+        List<ShopCart> shopCarts = shopCartService.getListByShopCardIds(shopCartIds);
         // 计算总价格
         int totalAmount = 0;
         Map<String, GoodsDetail> goodsDetailMap = new HashMap<>(shopCarts.size());
@@ -128,7 +136,11 @@ public class OrderService {
         updateByOrderNo(order);
     }
 
-    public OrderConfirmInfo orderConfirm(List<String> shopCartIds){
+    public OrderConfirmInfo orderConfirmInfo(String orderConfirmToken){
+        List<String> shopCartIds = (List<String>) redisUtils.get(orderConfirmToken);
+        if(shopCartIds == null){
+            throw BizException.ORDER_CONFIRM_EXPIRED;
+        }
         OrderConfirmInfo confirmInfo = new OrderConfirmInfo();
         var addressList = receiveAddressMapper.selectList(Wrappers.<ReceiveAddress>lambdaQuery().eq(ReceiveAddress::getUid, UserInfo.get().getUid()));
         confirmInfo.setReceiveAddress(CollectionUtils.isEmpty(addressList) ? null : addressList.get(0));
@@ -151,6 +163,12 @@ public class OrderService {
         result.setRecords(list);
         result.setTotal(page.getTotal());
         return result;
+    }
+
+    public String generateOrderConfirmToken(List<String> shopCartIds) {
+        String token = UUIDUtils.getUuid();
+        redisUtils.set(token, shopCartIds, ORDER_CONFIRM_TOKEN_EXPIRE_SECOND);
+        return token;
     }
 
 }

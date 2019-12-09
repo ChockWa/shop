@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddOrderDto {
-    List<String> shopCartIds;
+    private String orderToken;
     private Integer totalAmount;
     private String receiveAddressId;
 }
