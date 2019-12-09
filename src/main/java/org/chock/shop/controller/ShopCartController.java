@@ -30,9 +30,9 @@ public class ShopCartController {
         return Result.SUCCESS().setData("list", shopCartService.getShopCartDetailList(null));
     }
 
-    @GetMapping("/add-back-list")
-    public Result addShopCartBackList(String goodsDetailId, Integer quantity){
-        shopCartService.addShopCart(goodsDetailId, quantity);
+    @GetMapping("/update-num")
+    public Result updateShopCartGoodsNumber(String shopCartId, Integer quantity){
+        shopCartService.updateShopCartGoodsNumber(shopCartId, quantity);
         return Result.SUCCESS().setData("list", shopCartService.getShopCartDetailList(null));
     }
 
@@ -45,6 +45,18 @@ public class ShopCartController {
     @GetMapping("/delete")
     public Result delete(String shopCardIds){
         shopCartService.delete(shopCardIds.split(","));
+        return Result.SUCCESS().setData("list", shopCartService.getShopCartDetailList(null));
+    }
+
+    @GetMapping("/check")
+    public Result check(String shopCartId, Boolean check){
+        shopCartService.check(shopCartId, check);
+        return Result.SUCCESS().setData("list", shopCartService.getShopCartDetailList(null));
+    }
+
+    @GetMapping("/all-check")
+    public Result allCheck(Boolean check){
+        shopCartService.allCheck(check);
         return Result.SUCCESS().setData("list", shopCartService.getShopCartDetailList(null));
     }
 

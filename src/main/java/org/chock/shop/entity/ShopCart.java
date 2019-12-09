@@ -23,6 +23,7 @@ public class ShopCart {
     private String uid;
     private String goodsDetailId;
     private Integer quantity;
+    private Boolean isChecked;
     private Date createTime;
     private Date updateTime;
 }

@@ -28,10 +28,23 @@ public class ShopCartService {
     private SkuMapper skuMapper;
 
     /**
+     * 更新购物车商品数量
+     * @param shopCartId
+     */
+    public synchronized void updateShopCartGoodsNumber(String shopCartId, Integer quantity){
+        ShopCart updateEntity = new ShopCart();
+        updateEntity.setId(shopCartId);
+        updateEntity.setQuantity(quantity);
+        updateEntity.setUpdateTime(new Date());
+        shopCartMapper.updateById(updateEntity);
+    }
+
+    /**
      * 添加购物车
      * @param goodsDetailId
+     * @param quantity
      */
-    public void addShopCart(String goodsDetailId, Integer quantity){
+    public synchronized void addShopCart(String goodsDetailId, Integer quantity) {
         ShopCart exist = shopCartMapper.selectOne(Wrappers.<ShopCart>lambdaQuery()
                 .eq(ShopCart::getUid, UserInfo.get().getUid())
                 .eq(ShopCart::getGoodsDetailId, goodsDetailId));
@@ -40,6 +53,7 @@ public class ShopCartService {
             exist.setCreateTime(new Date());
             exist.setGoodsDetailId(goodsDetailId);
             exist.setQuantity(1);
+            exist.setIsChecked(true);
             exist.setUid(UserInfo.get().getUid());
             exist.setId(UUIDUtils.getUuid());
             shopCartMapper.insert(exist);
@@ -80,6 +94,14 @@ public class ShopCartService {
 
     public void delete(String[] shopCardIds){
         shopCartMapper.delete(Wrappers.<ShopCart>lambdaQuery().in(ShopCart::getId, shopCardIds));
+    }
+
+    public void check(String shopCartId, Boolean check){
+        shopCartMapper.update(null, Wrappers.<ShopCart>lambdaUpdate().set(ShopCart::getIsChecked, check).eq(ShopCart::getId, shopCartId));
+    }
+
+    public void allCheck(Boolean check){
+        shopCartMapper.update(null, Wrappers.<ShopCart>lambdaUpdate().set(ShopCart::getIsChecked, check).in(ShopCart::getUid, UserInfo.get().getUid()));
     }
 
 }

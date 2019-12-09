@@ -3,7 +3,7 @@
 <mapper namespace="org.chock.shop.mapper.ShopCartMapper">
 
   <select id="getShopCartList" resultType="org.chock.shop.dto.GoodsDetailInfo">
-    select a.id shopCartId, a.quantity,
+    select a.id shopCartId, a.quantity, a.is_checked, a.goods_detail_id,
     b.price,b.goods_sku_ids skuIds,
     c.name, c.cover, c.id goodsId
     from s_shop_cart a
@@ -16,6 +16,6 @@
         #{item}
       </foreach>
     </if>
-    order by a.update_time desc
+    order by a.create_time desc
   </select>
 </mapper>

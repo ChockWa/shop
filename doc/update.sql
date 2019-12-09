@@ -60,6 +60,7 @@ create table s_shop_cart (
   uid varchar(36) null comment '用戶id',
   goods_detail_id varchar(36) null comment 'goods_detail_id',
   quantity int(2) null comment '數量',
+  is_checked tinyint(1) null comment '是否勾上',
   create_time datetime null comment '創建時間',
   update_time datetime null comment '更新時間',
   primary key (id)

@@ -24,6 +24,7 @@ public class GoodsDetailInfo {
     private String cover;
     private Integer price;
     private Integer quantity;
+    private Boolean isChecked;
     private Integer amount;
     private String skuIds;
     private Map<String,String> goodsSkuMap;
