@@ -118,6 +118,7 @@ create table s_receive_address (
   address varchar(128) null,
   name varchar(10) null,
   phone varchar(16) null,
+  is_default tinyint null,
   primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '快遞單號表';
 
@@ -130,6 +131,7 @@ create table s_receive_address_static (
   address varchar(128) null,
   name varchar(10) null,
   phone varchar(16) null,
+  is_default tinyint null,
   primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '快遞單號表';
 

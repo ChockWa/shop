@@ -19,7 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @TableName("s_receive_address")
 public class ReceiveAddress {
-    @TableId(type = IdType.INPUT)
+    @TableId(type = IdType.UUID)
     private String id;
     private String uid;
     private String address;
@@ -28,4 +28,5 @@ public class ReceiveAddress {
     private String province;
     private String city;
     private String district;
+    private Boolean isDefault;
 }
