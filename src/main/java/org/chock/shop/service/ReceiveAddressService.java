@@ -21,8 +21,19 @@ public class ReceiveAddressService {
     private ReceiveAddressMapper receiveAddressMapper;
 
     public void add(ReceiveAddress receiveAddress){
+        if(receiveAddress.getIsDefault()){
+            setAllAddressNotDefault();
+        }
         receiveAddress.setUid(UserInfo.get().getUid());
         receiveAddressMapper.insert(receiveAddress);
+    }
+
+    private void setAllAddressNotDefault(){
+        receiveAddressMapper.update(null, Wrappers.<ReceiveAddress>lambdaUpdate().set(ReceiveAddress::getIsDefault, false).eq(ReceiveAddress::getUid, UserInfo.get().getUid()));
+    }
+
+    public ReceiveAddress getById(String addressId){
+        return receiveAddressMapper.selectById(addressId);
     }
 
     public void delete(String addressId){
@@ -30,10 +41,20 @@ public class ReceiveAddressService {
     }
 
     public void update(ReceiveAddress receiveAddress){
+        if(receiveAddress.getIsDefault()){
+            setAllAddressNotDefault();
+        }
         receiveAddressMapper.updateById(receiveAddress);
     }
 
     public List<ReceiveAddress> list(){
         return receiveAddressMapper.selectList(Wrappers.<ReceiveAddress>lambdaQuery().eq(ReceiveAddress::getUid, UserInfo.get().getUid()));
+    }
+
+    public void setDefault(String addressId, Boolean isDefault){
+        if(isDefault){
+            setAllAddressNotDefault();
+        }
+        receiveAddressMapper.update(null, Wrappers.<ReceiveAddress>lambdaUpdate().set(ReceiveAddress::getIsDefault, isDefault).eq(ReceiveAddress::getId, addressId));
     }
 }

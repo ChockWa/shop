@@ -43,6 +43,17 @@ public class ReceiveAddressController {
     @GetMapping("/del")
     public Result delete(String addressId){
         receiveAddressService.delete(addressId);
-        return Result.SUCCESS();
+        return Result.SUCCESS().setData("list", receiveAddressService.list());
+    }
+
+    @GetMapping("/getById")
+    public Result getById(String addressId){
+        return Result.SUCCESS().setData(receiveAddressService.getById(addressId));
+    }
+
+    @GetMapping("/setDefault")
+    public Result setDefault(String addressId, Boolean isDefault){
+        receiveAddressService.setDefault(addressId, isDefault);
+        return Result.SUCCESS().setData("list", receiveAddressService.list());
     }
 }
