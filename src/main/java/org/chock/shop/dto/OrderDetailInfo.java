@@ -24,5 +24,6 @@ public class OrderDetailInfo {
     private List<GoodsDetailInfo> goodsList;
     private Express express;
     private ReceiveAddressStatic receiveAddressStatic;
+    private Integer payAmount;
     private Integer totalAmount;
 }
