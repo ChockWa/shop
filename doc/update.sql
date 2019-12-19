@@ -78,6 +78,7 @@ create table s_order (
   id bigint auto_increment not null,
   order_no varchar(20) null,
   uid varchar(36) null,
+  pay_amount int(5) null comment '实付金额',
   total_amount int(5) null comment '总金额',
   status int(1) null comment '状态1-待付款2-待发货3-待收货4-换货中5-订单完成',
   address_id varchar(36) null,

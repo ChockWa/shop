@@ -25,6 +25,7 @@ public class Order {
     private Long id;
     private String orderNo;
     private String uid;
+    private Integer payAmount;
     private Integer totalAmount;
     private Integer status;
     private String addressId;
