@@ -28,17 +28,17 @@ public class ReceiveAddressController {
         return Result.SUCCESS().setData("list", receiveAddressService.list());
     }
 
-    @PostMapping("/add")
-    public Result add(@RequestBody ReceiveAddress receiveAddress) {
+    @PostMapping("/save")
+    public Result save(@RequestBody ReceiveAddress receiveAddress) {
         receiveAddressService.add(receiveAddress);
         return Result.SUCCESS();
     }
 
-    @PostMapping("/update")
-    public Result update(@RequestBody ReceiveAddress receiveAddress){
-        receiveAddressService.update(receiveAddress);
-        return Result.SUCCESS();
-    }
+//    @PostMapping("/update")
+//    public Result update(@RequestBody ReceiveAddress receiveAddress){
+//        receiveAddressService.update(receiveAddress);
+//        return Result.SUCCESS();
+//    }
 
     @GetMapping("/del")
     public Result delete(String addressId){

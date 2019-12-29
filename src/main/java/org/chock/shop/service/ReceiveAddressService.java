@@ -1,6 +1,7 @@
 package org.chock.shop.service;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import org.apache.commons.lang3.StringUtils;
 import org.chock.shop.dto.UserInfo;
 import org.chock.shop.entity.ReceiveAddress;
 import org.chock.shop.mapper.ReceiveAddressMapper;
@@ -21,6 +22,10 @@ public class ReceiveAddressService {
     private ReceiveAddressMapper receiveAddressMapper;
 
     public void add(ReceiveAddress receiveAddress){
+        if(StringUtils.isNotBlank(receiveAddress.getId())){
+            update(receiveAddress);
+            return;
+        }
         if(receiveAddress.getIsDefault()){
             setAllAddressNotDefault();
         }
