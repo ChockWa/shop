@@ -35,21 +35,21 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 檢查ip
-        if(checkNeedLoginOrNot(request.getRequestURI())){
-            String token = request.getHeader("BeautyT");
-            if(StringUtils.isBlank(token)){
-                throw BizException.TOKEN_EXPIRED_ERROR;
-            }
-            User user = (User) redisUtils.get(token);
-            UserInfo.set(user);
-        }
+//        if(checkNeedLoginOrNot(request.getRequestURI())){
+//            String token = request.getHeader("BeautyT");
+//            if(StringUtils.isBlank(token)){
+//                throw BizException.TOKEN_EXPIRED_ERROR;
+//            }
+//            User user = (User) redisUtils.get(token);
+//            UserInfo.set(user);
+//        }
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception {
-        UserInfo.clear();
-        addLog(request);
+//        UserInfo.clear();
+//        addLog(request);
     }
 
     private void addLog(HttpServletRequest request){
