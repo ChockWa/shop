@@ -19,14 +19,14 @@ import java.util.Map;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({ "createTime", "brandName", "updateTime" })
+@JsonIgnoreProperties({ "createTime", "categoryName", "updateTime" })
 public class GoodsInfo {
-    private String brandId;
+    private String categoryId;
     private String goodsId;
     private String name;
     private String description;
     private String cover;
     private String images;
     boolean status;
-    private Map<String, List<Sku>> skuMap;
+//    private Map<String, List<Sku>> skuMap;
 }

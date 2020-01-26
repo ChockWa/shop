@@ -35,7 +35,7 @@ public class GoodsService {
         // 保存商品信息
         Goods goods = new Goods();
         goods.setId(goodsInfo.getGoodsId());
-        goods.setBrandId(goodsInfo.getBrandId());
+        goods.setCategoryId(goodsInfo.getCategoryId());
         goods.setName(goodsInfo.getName());
         goods.setDescription(goodsInfo.getDescription());
         goods.setStatus(goodsInfo.isStatus()?1:0);
@@ -50,32 +50,32 @@ public class GoodsService {
             goodsMapper.updateById(goods);
         }
         // 不能更新sku
-        if(StringUtils.isNoneBlank(goodsInfo.getGoodsId())){
-            return;
-        }
+//        if(StringUtils.isNoneBlank(goodsInfo.getGoodsId())){
+//            return;
+//        }
 
         // 获取所有sku组合保存信息
-        List<List<String>> allSkuIds = new ArrayList<>();
-        for(Map.Entry<String, List<Sku>> entry : goodsInfo.getSkuMap().entrySet()){
-            // 插入商品sku信息
-            for(Sku sku : entry.getValue()){
-                goodsSkuService.add(goods.getId(), sku.getId());
-            }
-            allSkuIds.add(entry.getValue().stream().map(Sku::getId).collect(Collectors.toList()));
-        }
-        List<String> firstSkuIds = allSkuIds.get(0);
-        List<List<String>> allSkuComposes = getAllSkuCompose(convert(firstSkuIds), allSkuIds, 1);
-
-        // 根据所有sku组合生成商品详情
-        for(List<String> skuIds : allSkuComposes){
-            GoodsDetail goodsDetail = new GoodsDetail();
-            goodsDetail.setId(UUIDUtils.getUuid());
-            goodsDetail.setGoodsId(goods.getId());
-            goodsDetail.setGoodsSkuIds(String.join(",", skuIds));
-            goodsDetail.setCreateTime(new Date());
-            goodsDetail.setStatus(1);
-            goodsDetailMapper.insert(goodsDetail);
-        }
+//        List<List<String>> allSkuIds = new ArrayList<>();
+//        for(Map.Entry<String, List<Sku>> entry : goodsInfo.getSkuMap().entrySet()){
+//            // 插入商品sku信息
+//            for(Sku sku : entry.getValue()){
+//                goodsSkuService.add(goods.getId(), sku.getId());
+//            }
+//            allSkuIds.add(entry.getValue().stream().map(Sku::getId).collect(Collectors.toList()));
+//        }
+//        List<String> firstSkuIds = allSkuIds.get(0);
+//        List<List<String>> allSkuComposes = getAllSkuCompose(convert(firstSkuIds), allSkuIds, 1);
+//
+//        // 根据所有sku组合生成商品详情
+//        for(List<String> skuIds : allSkuComposes){
+//            GoodsDetail goodsDetail = new GoodsDetail();
+//            goodsDetail.setId(UUIDUtils.getUuid());
+//            goodsDetail.setGoodsId(goods.getId());
+//            goodsDetail.setGoodsSkuIds(String.join(",", skuIds));
+//            goodsDetail.setCreateTime(new Date());
+//            goodsDetail.setStatus(1);
+//            goodsDetailMapper.insert(goodsDetail);
+//        }
     }
 
     private static List<List<String>> getAllSkuCompose(List<List<String>> current, List<List<String>> all,Integer nextIndex){
@@ -110,11 +110,11 @@ public class GoodsService {
         return result;
     }
 
-    @Transactional(rollbackFor = Exception.class)
+//    @Transactional(rollbackFor = Exception.class)
     public void delete(String goodsId){
         // 先删除商品的sku信息
-        goodsSkuService.deleteByGoodsId(goodsId);
-        goodsDetailMapper.delete(Wrappers.<GoodsDetail>lambdaQuery().eq(GoodsDetail::getGoodsId, goodsId));
+//        goodsSkuService.deleteByGoodsId(goodsId);
+//        goodsDetailMapper.delete(Wrappers.<GoodsDetail>lambdaQuery().eq(GoodsDetail::getGoodsId, goodsId));
         goodsMapper.deleteById(goodsId);
     }
 

@@ -16,5 +16,5 @@ import org.chock.shop.entity.Goods;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GoodsDto extends Goods {
-    private String brandName;
+    private String categoryName;
 }

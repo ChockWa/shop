@@ -3,9 +3,9 @@
 <mapper namespace="org.chock.shop.mapper.GoodsMapper">
 
   <select id="listGoodsPage" resultType="org.chock.shop.dto.GoodsDto">
-    select a.*, b.name_cn brandName
+    select a.*, b.name categoryName
     from s_goods a
-    inner join s_brand b on a.brand_id = b.id
+    inner join s_category b on a.category_id = b.id
     where
     1 = 1
     <if test="goodsIds != null and goodsIds.size() > 0">

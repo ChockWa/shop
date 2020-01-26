@@ -22,9 +22,17 @@ create table s_brand (
    primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '品牌表';
 
+create table s_category (
+   id varchar(36) not null,
+   name varchar(12),
+   logo varchar(64),
+   status int(1) null comment '状态1-正常',
+   primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '分类表';
+
 create table s_goods (
   id varchar(36) not null,
-  brand_id varchar(36) null,
+  category_id varchar(36) null,
   name varchar(25) null comment '商品名称',
   description varchar(64) null comment '商品描述',
   cover varchar(128) null comment '封面',

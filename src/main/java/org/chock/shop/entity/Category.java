@@ -7,28 +7,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.omg.CORBA.IDLType;
 
-import java.util.Date;
-
-/**
- * @auther: zhuohuahe
- * @date: 2019/11/6 09:38
- * @description:
- */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("s_goods")
-public class Goods {
+@TableName("s_category")
+public class Category {
     @TableId(type = IdType.INPUT)
     private String id;
-    private String categoryId;
     private String name;
-    private String description;
-    private String cover;
-    private String images;
+    private String logo;
     private Integer status;
-    private Date createTime;
-    private Date updateTime;
 }
