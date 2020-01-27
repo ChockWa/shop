@@ -35,6 +35,7 @@ create table s_goods (
   category_id varchar(36) null,
   name varchar(25) null comment '商品名称',
   description varchar(64) null comment '商品描述',
+  price varchar null,
   cover varchar(128) null comment '封面',
   images varchar(1024) null comment '商品圖片',
   status int(1) null comment '状态1-正常',

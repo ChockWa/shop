@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -26,6 +27,7 @@ public class Goods {
     private String categoryId;
     private String name;
     private String description;
+    private String price;
     private String cover;
     private String images;
     private Integer status;

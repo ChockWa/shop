@@ -17,12 +17,11 @@
   </select>
 
   <select id="getGoodsInfoItemsPage" resultType="org.chock.shop.dto.GoodsInfoItem">
-    select a.id goodsId, a.cover, a.name goodsName, b.price
+    select a.id goodsId, a.cover, a.name goodsName, a.price
     from s_goods a
-    left join s_goods_detail b on a.id = b.goods_id
     <where>
-      <if test="query.brandId != null and query.brandId != ''">
-        and a.brand_id = #{query.brandId}
+      <if test="query.categoryId != null and query.categoryId != ''">
+        and a.category_id = #{query.categoryId}
       </if>
       <if test="query.searchContent != null and query.searchContent != ''">
         and a.name like concat('%',#{query.searchContent},'%')
@@ -34,6 +33,6 @@
         </foreach>
       </if>
     </where>
-    group by b.goods_id order by a.create_time desc
+    order by a.create_time desc
   </select>
 </mapper>

@@ -47,4 +47,9 @@ public class GoodsController {
     public Result getGoodsInfoItemsPage(GoodsInfoItemQuery query, PageParam pageParam){
         return Result.SUCCESS().setData(goodsService.getGoodsInfoItemsPage(query, pageParam));
     }
+
+    @GetMapping("/info")
+    public Result getGoodsInfo(String goodsId){
+        return Result.SUCCESS().setData(goodsService.getById(goodsId));
+    }
 }

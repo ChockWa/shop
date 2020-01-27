@@ -121,13 +121,17 @@ public class GoodsService {
     public PageResult<GoodsInfoItem> getGoodsInfoItemsPage(GoodsInfoItemQuery query, PageParam pageParam){
         Page<GoodsInfoItem> page = new Page<>(pageParam.getPageIndex(), pageParam.getPageSize());
         goodsMapper.getGoodsInfoItemsPage(page, query);
-        page.getRecords().forEach(e -> {
-            e.setCover(DNS_HTTPS + e.getCover());
-        });
+//        page.getRecords().forEach(e -> {
+//            e.setCover(DNS_HTTPS + e.getCover());
+//        });
 
         PageResult<GoodsInfoItem> result = new PageResult<>();
         result.setRecords(page.getRecords());
         result.setTotal(page.getTotal());
         return result;
+    }
+
+    public Goods getById(String goodsId){
+        return goodsMapper.selectById(goodsId);
     }
 }

@@ -18,6 +18,6 @@ import java.util.List;
 @Setter
 public class GoodsInfoItemQuery {
     private String searchContent;
-    private String brandId;
+    private String categoryId;
     private List<String> goodsIds;
 }
