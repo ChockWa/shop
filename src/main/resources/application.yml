@@ -48,6 +48,16 @@ spring:
     properties.mail.smtp.ssl.enable: true
     default-encoding: utf-8
     from: hzh081215@qq.com #与上面的username保持一致
+  freemarker:
+    charset: UTF-8
+    suffix: .ftl
+    content-type: text/html; charset=utf-8
+    template-loader-path: classpath:/templates
+    cache: false
+    settings:
+      template_update_delay: 0
+  mvc:
+    static-path-pattern: /static/**
 
 wx-appid: wx851145b8f1cdf10d
 wx-secret: f8278c5f904ddb85ff86a04378109c79

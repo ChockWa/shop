@@ -33,20 +33,15 @@ public class JwtUtils {
      * @param user
      * @return
      */
-//    public static String createToken(User user){
-//
-//        if(user == null || user.getUid() == null || user.getUserName() == null){
-//            return null;
-//        }
-//        String token = Jwts.builder().setSubject(SUBJECT)
-//                .claim("uid",user.getUid())
-//                .claim("userName",user.getUserName())
-//                .setIssuedAt(new Date())
-//                .setExpiration(new Date(System.currentTimeMillis()+EXPIRE))
-//                .signWith(SignatureAlgorithm.HS256,APPSECRET).compact();
-//
-//        return token;
-//    }
+    public static String createToken(String uid, String userName){
+        String token = Jwts.builder().setSubject(SUBJECT)
+                .claim("uid",uid)
+                .claim("userName",userName)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis()+EXPIRE))
+                .signWith(SignatureAlgorithm.HS256,APPSECRET).compact();
+        return token;
+    }
 
     /**
      * 校验token

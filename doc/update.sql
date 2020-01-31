@@ -159,3 +159,27 @@ create table s_log (
   create_time datetime null comment '創建時間',
   primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '请求日志表';
+
+
+------------------------------------------------------------------------------
+create table g_user(
+  uid varchar(36) not null,
+  user_name varchar(20) null,
+  password varchar(32) null comment '密码',
+  salt varchar(36) null comment '盐',
+  email varchar(16) null comment '邮箱',
+  vip_end_time datetime null comment 'vip到期时间',
+  create_time datetime null comment '创建时间',
+  primary key(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '群发网用户表';
+
+create table g_card(
+  card_no varchar(12) not null,
+  uid varchar(36) null,
+  status int(3) null,
+  use_time datetime null,
+  create_time datetime null,
+  primary key(card_no)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '群发网卡号表';
+
+
