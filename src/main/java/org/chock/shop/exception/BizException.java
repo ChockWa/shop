@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BizException extends RuntimeException {
-    public static BizException TOKEN_EXPIRED_ERROR = new BizException(1001, "会话超时，请重新登录");
+    public static BizException TOKEN_EXPIRED_ERROR = new BizException(1001, "登录已过期，请重新登录");
     public static BizException AUTH_FAIL_ERROR = new BizException(1002, "授权失败，请重试");
     public static BizException ORDER_DATA_NULL_ERROR = new BizException(1003, "下单信息不能为空");
     public static BizException RECEIVE_ADDRESS_NULL_ERROR = new BizException(1004, "请选择收货地址");

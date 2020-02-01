@@ -36,7 +36,7 @@ public class GroupUserService {
         }
         List<GroupUser> exists = groupUserMapper.selectList(Wrappers.<GroupUser>lambdaQuery().eq(GroupUser::getUserName, userName)
         .or().eq(StringUtils.isNotBlank(email), GroupUser::getEmail, email));
-        if(exists.size() > 1){
+        if(exists.size() > 0){
             throw new IllegalArgumentException("用户名或邮箱已存在!");
         }
         String salt = UUIDUtils.getUuid();
@@ -77,22 +77,23 @@ public class GroupUserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void chargeVip(String cardNo, String token){
+    public GroupUser chargeVip(String cardNo, String token){
         if(StringUtils.isBlank(cardNo)){
             throw new IllegalArgumentException("卡号不能为空!");
         }
-        GroupCard card = groupCardMapper.selectById(cardNo);
-        if(card == null || StringUtils.isNotBlank(card.getUid())){
-            throw new IllegalArgumentException("卡号不存在或已使用");
-        }
+//        GroupCard card = groupCardMapper.selectById(cardNo);
+//        if(card == null || StringUtils.isNotBlank(card.getUid())){
+//            throw new IllegalArgumentException("卡号不存在或已使用");
+//        }
         GroupUser user = (GroupUser) redisUtils.get(token);
-        card.setUid(user.getUid());
-        card.setUseTime(new Date());
-        card.setStatus(0);
-        groupCardMapper.updateById(card);
+//        card.setUid(user.getUid());
+//        card.setUseTime(new Date());
+//        card.setStatus(0);
+//        groupCardMapper.updateById(card);
 
         user.setVipEndTime(DateUtil.offsetMonth(new Date(), 1)); // 一个月
         groupUserMapper.updateById(user);
+        return user;
     }
 
     public void checkExpire(String userName){

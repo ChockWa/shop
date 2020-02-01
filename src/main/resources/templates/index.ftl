@@ -5,18 +5,25 @@
     <title>推广页面</title>
     <#include "header.ftl"/>
 </head>
-
 <body>
 <div>
 <div class="index">
-    <div>
-        <img class="logo_area" src="../static/images/logo.png">
+    <div class="index_head">
+        <div>
+            <img class="logo_area" src="../static/images/logo.png">
+        </div>
+        <div>
+            <div class="user_info_area">
+                <div id="userName_area"></div>
+                <div id="time_area"></div>
+            </div>
+        </div>
     </div>
     <hr>
     <div class="nav_button">
-        <button type="button" class="layui-btn layui-btn-sm">登录</button>
+        <button id="login_action" type="button" class="layui-btn layui-btn-sm">登录</button>
         <button id="register_action" type="button" class="layui-btn layui-btn-primary layui-btn-sm">注册</button>
-        <button type="button" class="layui-btn layui-btn-sm layui-btn-danger">办理会员</button>
+        <button id="charge_action" type="button" class="layui-btn layui-btn-sm layui-btn-danger">办理会员</button>
     </div>
     <div class="simple_desc">
         <div class="product_logo">
@@ -70,20 +77,91 @@
 
 <script src="../static/layui/layui.js"></script>
 <script>
-$("#register_action").click(function() {
-    layui.use('layer', function(){
-        var layer = layui.layer;
-        layer.open({
-            type: 2,
-            title:"注册",
-            area:['500px',],
-            btn: ['确定', '取消'],
-            content: "regP",
-            yes:function(){
-            }
+    init()
+    function init() {
+        let ginfo = JSON.parse(localStorage.getItem("ginfo"))
+        // console.log(ginfo)
+        if(!ginfo){
+            return
+        }
+        let userName = ginfo.userName
+        let vipEndTime = ginfo.vipEndTime
+        document.getElementById("time_area").innerText = "会员到期时间：" + (vipEndTime != null ? formartDate(vipEndTime) : "非会员")
+        document.getElementById("userName_area").innerText = userName
+    }
+
+    $("#register_action").click(function() {
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.open({
+                type: 2,
+                title:"注册",
+                area:["500px","480px"],
+                shadeClose: true,
+                content: ["regP", "no"],
+                yes:function(){
+                }
+            })
+        });
+    })
+
+    $("#login_action").click(function() {
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.open({
+                type: 2,
+                title:"登录",
+                area:["500px","430px"],
+                shadeClose: true,
+                content: ["loginP", "no"],
+                yes:function(){
+                }
+            })
+        });
+    })
+
+    $("#charge_action").click(function() {
+        let ginfo = localStorage.getItem("ginfo")
+        if(!ginfo){
+            error("请先进行登录!")
+            return
+        }
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.open({
+                type: 2,
+                title:"办理会员",
+                area:["500px","380px"],
+                shadeClose: true,
+                content: ["chargeP", "no"],
+                yes:function(){
+                }
+            })
+        });
+    })
+
+    function error(msg){
+        layui.use(["layer"], function () {
+            let layer = layui.layer;
+            layer.open({
+                type: 0,
+                title:"错误",
+                btn: ["确定"],
+                content: msg
+            })
         })
-    });
-})
+    }
+
+    function formartDate (param) {
+        let date = new Date(param);
+        let Y = date.getFullYear() + '-';
+        let M = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) + '-' : date.getMonth() + 1 + '-';
+        let D = date.getDate() < 10 ? '0' + date.getDate() + ' ' : date.getDate() + ' ';
+        let h = date.getHours() < 10 ? '0' + date.getHours() + ':' : date.getHours() + ':';
+        let m = date.getMinutes() < 10 ? '0' + date.getMinutes() + ':' : date.getMinutes() + ':';
+        let s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+        return Y + M + D + h + m + s;
+    }
 </script>
 </body>
 </html>
@@ -91,6 +169,10 @@ $("#register_action").click(function() {
     .index {
         width: 800px;
         margin: 0 auto;
+    }
+    .index_head {
+        display: flex;
+        justify-content: space-between;
     }
     .logo_area {
         width: 238px;
@@ -118,5 +200,10 @@ $("#register_action").click(function() {
     }
     .detail_desc_img {
         padding-top: 13px;
+    }
+    .user_info_area {
+        padding-top: 20px;
+        text-align: right;
+        line-height: 23px;
     }
 </style>

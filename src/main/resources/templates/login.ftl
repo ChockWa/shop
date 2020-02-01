@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8"/>
-    <title>简易群发注册页面</title>
+    <title>简易群发登录页面</title>
     <#include "header.ftl"/>
 </head>
 <body>
@@ -21,18 +21,6 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">确认密码</label>
-            <div class="layui-input-block">
-                <input type="password" id="confirmPassword" name="confirmPassword" required  lay-verify="required" autocomplete="off" class="layui-input input_width300">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">邮箱</label>
-            <div class="layui-input-block">
-                <input type="text" id="email" name="email" lay-verify="email" autocomplete="off" class="layui-input input_width300">
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">验证码</label>
             <div class="layui-input-block" style="display: flex">
                 <input type="text" id="verifyCode" name="verifyCode" required lay-verify="required" autocomplete="off" class="layui-input input_width130">
@@ -42,14 +30,15 @@
         </div>
     </form>
     <div class="button_area">
-        <button id="submitReg" type="button" lay-filter="submitReg" class="layui-btn layui-btn" lay-submit>注 册</button>
-<#--        <button type="button" class="layui-btn layui-btn-primary layui-btn">取消</button>-->
+        <button id="submitReg" type="button" lay-filter="submitReg" class="layui-btn layui-btn" lay-submit>登 录</button>
+        <#--        <button type="button" class="layui-btn layui-btn-primary layui-btn">取消</button>-->
     </div>
 </div>
 <script src="../static/layui/layui.js"></script>
 <script>
     let uuid = ""
     let layer
+
     layui.use("layer", function () {
         layer = layui.layer
     })
@@ -59,24 +48,22 @@
     $("#submitReg").click(function () {
         let userName = $("#userName").val()
         let password = $("#password").val()
-        let confirmPassword = $("#confirmPassword").val()
         let verifyCode = $("#verifyCode").val()
-        let email = $("#email").val()
-        if(!valid(userName, password, confirmPassword, verifyCode)){
+        if(!valid(userName, password, verifyCode)){
             return
         }
         let loading = layer.load(2, {shade: [0.6, '#ccc']})
         $.ajax({
-            url:"/reg",
-            data:JSON.stringify({'userName':userName, "password":password,"verifyCode":verifyCode,"email":email,"uuid":uuid}),
+            url:"/login",
+            data:JSON.stringify({'userName':userName, "password":password,"verifyCode":verifyCode,"uuid":uuid}),
             type:"Post",
             contentType: "application/json;charset=utf-8",
             dataType:"json",
-            success:async function(data){
+            success: async function(data){
                 console.log(data);
                 if(data.code === 0){
                     layer.close(loading)
-                    success("注册成功!")
+                    success("登录成功!")
                     await sleep(1000)
                     let token = data.data.token
                     let userName = data.data.userName
@@ -97,17 +84,13 @@
         });
     })
 
-    function valid (userName, password, confirmPassword, verifyCode){
+    function valid (userName, password, verifyCode){
         if(!userName){
             error("用户名不能为空！")
             return false
         }
         if(!password || password.length < 6){
             error("密码不能少于6位！")
-            return false
-        }
-        if(password !== confirmPassword){
-            error("两次密码不一致！")
             return false
         }
         if(!verifyCode){
@@ -135,7 +118,7 @@
             layer.open({
                 type: 0,
                 title:"成功",
-                time: 1500,
+                time: 1000,
                 content: msg
             })
         })
@@ -161,7 +144,7 @@
 </body>
 <style lang="scss">
     .register_form {
-        height: 480px;
+        height: 430px;
         padding-top: 38px;
     }
     .input_width300 {

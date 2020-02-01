@@ -170,7 +170,7 @@ create table g_user(
   email varchar(16) null comment '邮箱',
   vip_end_time datetime null comment 'vip到期时间',
   create_time datetime null comment '创建时间',
-  primary key(id)
+  primary key(uid)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '群发网用户表';
 
 create table g_card(
