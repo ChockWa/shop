@@ -33,12 +33,12 @@ public class GroupUserService {
 
     public GroupLoginResp register(String userName, String password, String email){
         if(StringUtils.isBlank(userName) || StringUtils.isBlank(password)){
-            throw new BizException("用户名和密码不能为空!");
+            throw new BizException(9999, "用户名和密码不能为空!");
         }
         List<GroupUser> exists = groupUserMapper.selectList(Wrappers.<GroupUser>lambdaQuery().eq(GroupUser::getUserName, userName)
         .or().eq(StringUtils.isNotBlank(email), GroupUser::getEmail, email));
         if(exists.size() > 0){
-            throw new BizException("用户名或邮箱已存在!");
+            throw new BizException(9999, "用户名或邮箱已存在!");
         }
         String salt = UUIDUtils.getUuid();
         String hexPassword = MD5Utils.md5(salt + password + salt);
@@ -59,17 +59,17 @@ public class GroupUserService {
 
     public GroupLoginResp login(String userName, String password){
         if(StringUtils.isBlank(userName) || StringUtils.isBlank(password)){
-            throw new BizException("用户名和密码不能为空!");
+            throw new BizException(9999, "用户名和密码不能为空!");
         }
         List<GroupUser> exists = groupUserMapper.selectList(Wrappers.<GroupUser>lambdaQuery().eq(GroupUser::getUserName, userName));
         if(exists.size() < 1){
-            throw new BizException("用户不存在!");
+            throw new BizException(9999, "用户不存在!");
         }
 
         GroupUser user = exists.get(0);
         String hexPassword = MD5Utils.md5(user.getSalt() + password + user.getSalt());
         if(!hexPassword.equals(user.getPassword())){
-            throw new BizException("密码错误!");
+            throw new BizException(9999, "密码错误!");
         }
 
         String token = JwtUtils.createToken(user.getUid(), userName);
@@ -80,11 +80,11 @@ public class GroupUserService {
     @Transactional(rollbackFor = Exception.class)
     public GroupUser chargeVip(String cardNo, String token){
         if(StringUtils.isBlank(cardNo)){
-            throw new BizException("卡号不能为空!");
+            throw new BizException(9999, "卡号不能为空!");
         }
 //        GroupCard card = groupCardMapper.selectById(cardNo);
 //        if(card == null || StringUtils.isNotBlank(card.getUid())){
-//            throw new IllegalArgumentException("卡号不存在或已使用");
+//            throw new IllegalArgumentException(9999, "卡号不存在或已使用");
 //        }
         GroupUser user = (GroupUser) redisUtils.get(token);
 //        card.setUid(user.getUid());
@@ -99,17 +99,17 @@ public class GroupUserService {
 
     public void checkExpire(String userName){
         if(StringUtils.isBlank(userName)){
-            throw new BizException("用户名不能为空!");
+            throw new BizException(9999, "用户名不能为空!");
         }
 
         List<GroupUser> users = groupUserMapper.selectList(Wrappers.<GroupUser>lambdaQuery().eq(GroupUser::getUserName, userName));
         if(users.size() < 1){
-            throw new BizException("用户不存在!");
+            throw new BizException(9999, "用户不存在!");
         }
         var user = users.get(0);
 
         if(user.getVipEndTime() == null || new Date().after(user.getVipEndTime())){
-            throw new BizException("月会员已过期,请续费!");
+            throw new BizException(9999, "月会员已过期,请续费!");
         }
     }
 }
