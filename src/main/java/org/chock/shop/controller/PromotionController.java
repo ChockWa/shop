@@ -79,10 +79,10 @@ public class PromotionController {
 
     private void checkVerifyCode(String uuid, String verifyCode){
         if(StringUtils.isBlank(uuid) || StringUtils.isBlank(verifyCode)){
-            throw new IllegalArgumentException("验证码不能为空");
+            throw new BizException("验证码不能为空");
         }
         if(!verifyCode.equalsIgnoreCase((String) redisUtils.get(uuid))){
-            throw new IllegalStateException("验证码错误");
+            throw new BizException("验证码错误");
         }
     }
 }

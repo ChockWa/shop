@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value=Exception.class)
     public Result exceptionHandle(HttpServletRequest request, Exception exception) throws Exception{
         log.error("Exception：", exception);
-        Result result = Result.FAIL(9999, exception.getMessage());
+        Result result = Result.FAIL(9999, "系统不舒服,请稍后重试");
         exceptionMsg.set(result);
         return result;
     }
