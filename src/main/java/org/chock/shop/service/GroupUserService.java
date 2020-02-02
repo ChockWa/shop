@@ -109,7 +109,7 @@ public class GroupUserService {
         var user = users.get(0);
 
         if(user.getVipEndTime() == null || new Date().after(user.getVipEndTime())){
-            throw new BizException(9999, "月会员已过期,请续费!");
+            throw new BizException(9999, "非月会员或会员已过期,请登录网站续费!");
         }
     }
 }
