@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8"/>
-    <title>推广页面</title>
+    <title>简易群发工具</title>
     <#include "header.ftl"/>
 </head>
 <body>

@@ -183,3 +183,13 @@ create table g_card(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '群发网卡号表';
 
 
+create table g_log(
+  id bigint auto_increment not null,
+  method varchar(32) null comment '方法',
+  params varchar(256) null comment '参数',
+  ip varchar(32) null comment 'ip',
+  create_time datetime null comment '创建时间',
+  primary key (id)
+)ENGINE = InnoDB CHARACTER SET = utf8 COMMENT = '日志表';
+
+

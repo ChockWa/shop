@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.chock.shop.dto.LoginRequest;
 import org.chock.shop.dto.Result;
 import org.chock.shop.exception.BizException;
+import org.chock.shop.ratelimit.RateLimit;
 import org.chock.shop.service.GroupUserService;
 import org.chock.shop.util.JwtUtils;
 import org.chock.shop.util.RedisUtils;
@@ -16,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class PromotionController {
+public class PromotionController extends BaseController {
 
     @Autowired
     private GroupUserService groupUserService;
@@ -25,27 +26,32 @@ public class PromotionController {
     @Value("${request.prefix}")
     private String requestPrefix;
 
+    @RateLimit
     @GetMapping("/index")
     public ModelAndView index() {
         System.out.println(requestPrefix);
         return new ModelAndView("index", "requestPrefix", requestPrefix);
     }
 
+    @RateLimit
     @GetMapping("/regP")
     public ModelAndView registerPage() {
         return new ModelAndView("register", "requestPrefix", requestPrefix);
     }
 
+    @RateLimit
     @GetMapping("/loginP")
     public ModelAndView loginPage() {
         return new ModelAndView("login", "requestPrefix", requestPrefix);
     }
 
+    @RateLimit
     @GetMapping("/chargeP")
     public ModelAndView chargePage() {
         return new ModelAndView("charge");
     }
 
+    @RateLimit
     @PostMapping("reg")
     @ResponseBody
     public Result register(@RequestBody LoginRequest request){
@@ -53,6 +59,7 @@ public class PromotionController {
         return Result.SUCCESS().setData(groupUserService.register(request.getUserName(), request.getPassword(), request.getEmail()));
     }
 
+    @RateLimit
     @PostMapping("login")
     @ResponseBody
     public Result login(@RequestBody LoginRequest request){
@@ -60,6 +67,7 @@ public class PromotionController {
         return Result.SUCCESS().setData(groupUserService.login(request.getUserName(), request.getPassword()));
     }
 
+    @RateLimit
     @GetMapping("/charge/{cardNo}")
     @ResponseBody
     public Result chargeVip(@PathVariable String cardNo, HttpServletRequest request){
@@ -68,6 +76,7 @@ public class PromotionController {
         return Result.SUCCESS().setData(groupUserService.chargeVip(cardNo, token));
     }
 
+    @RateLimit
     @GetMapping("expire")
     @ResponseBody
     public Result checkExpire(String userName){
