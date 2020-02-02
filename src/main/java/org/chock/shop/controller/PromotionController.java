@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class PromotionController extends BaseController {
 
+    private static final String CURRENT_VERSION = "1.0";
+
     @Autowired
     private GroupUserService groupUserService;
     @Autowired
@@ -79,7 +81,10 @@ public class PromotionController extends BaseController {
     @RateLimit
     @GetMapping("expire")
     @ResponseBody
-    public Result checkExpire(String userName){
+    public Result checkExpire(String userName, String version){
+        if(StringUtils.isBlank(version) || !CURRENT_VERSION.equals(version)){
+            throw new BizException(9999, "请到官网下载最新版本使用");
+        }
         groupUserService.checkExpire(userName);
         return Result.SUCCESS();
     }
