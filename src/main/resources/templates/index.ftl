@@ -66,7 +66,7 @@
     </div>
     <hr>
     <div>
-        <button type="button" class="layui-btn layui-btn-sm">查看使用图文教程</button>
+        <button id="downloadUseBook" type="button" class="layui-btn layui-btn-sm">下载使用图文教程</button>
         <button type="button" class="layui-btn layui-btn-sm">下载使用视频教程</button>
         <button type="button" class="layui-btn layui-btn-sm layui-btn-danger">下载工具</button>
     </div>
@@ -89,6 +89,11 @@
         document.getElementById("time_area").innerText = "会员到期时间：" + (vipEndTime != null ? formartDate(vipEndTime) : "非会员")
         document.getElementById("userName_area").innerText = userName
     }
+
+    let loadingLayer
+    layui.use("layer", function () {
+        loadingLayer = layui.layer
+    })
 
     $("#register_action").click(function() {
         layui.use('layer', function(){
@@ -140,6 +145,38 @@
         });
     })
 
+    $("#downloadUseBook").click(function () {
+        checkLogin(() => {window.open("/downloadUB")})
+    })
+
+    function checkLogin(callback, params) {
+        let loading = loadingLayer.load(2, {shade: [0.6, '#ccc']})
+        let ginfo = localStorage.getItem("ginfo")
+        console.log(ginfo)
+        $.ajax({
+            url: "${requestPrefix}" + "/checkL",
+            type:"Get",
+            headers: {"groupT": ginfo==null?"":JSON.parse(ginfo).groupT},
+            contentType: "application/json;charset=utf-8",
+            dataType:"json",
+            success: async function(data){
+                if(data.code === 0){
+                    layer.close(loading)
+                    if(callback){
+                        callback(params)
+                    }
+                }else{
+                    layer.close(loading)
+                    error(data.msg)
+                }
+            },
+            error:function(data){
+                layer.close(loading)
+                error(data.msg);
+            }
+        });
+    }
+
     function error(msg){
         layui.use(["layer"], function () {
             let layer = layui.layer;
@@ -161,6 +198,17 @@
         let m = date.getMinutes() < 10 ? '0' + date.getMinutes() + ':' : date.getMinutes() + ':';
         let s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
         return Y + M + D + h + m + s;
+    }
+    function error(msg){
+        layui.use(["layer"], function () {
+            let layer = layui.layer;
+            layer.open({
+                type: 0,
+                title:"错误",
+                btn: ["确定"],
+                content: msg
+            })
+        })
     }
 </script>
 </body>

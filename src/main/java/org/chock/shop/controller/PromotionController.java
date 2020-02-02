@@ -1,5 +1,7 @@
 package org.chock.shop.controller;
 
+import lombok.Cleanup;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.chock.shop.dto.LoginRequest;
 import org.chock.shop.dto.Result;
@@ -15,7 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 
+@Slf4j
 @Controller
 public class PromotionController extends BaseController {
 
@@ -89,6 +94,15 @@ public class PromotionController extends BaseController {
         return Result.SUCCESS();
     }
 
+    @RateLimit
+    @GetMapping("checkL")
+    @ResponseBody
+    public Result checkLogin(HttpServletRequest request){
+        String token = request.getHeader("groupT");
+        checkLogin(token);
+        return Result.SUCCESS();
+    }
+
     private void checkLogin(String groupT){
         if(!JwtUtils.verifyToken(groupT)){
             throw BizException.TOKEN_EXPIRED_ERROR;
@@ -101,6 +115,37 @@ public class PromotionController extends BaseController {
         }
         if(!verifyCode.equalsIgnoreCase((String) redisUtils.get(uuid))){
             throw new BizException(9999, "验证码错误");
+        }
+    }
+
+
+    @GetMapping("downloadUB")
+    public void downloadUseBook(HttpServletResponse response){
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename=" + java.net.URLEncoder.encode("简易群发工具图文教程", "UTF-8") + ".docx");
+            downloadUseInstrucntion(response);
+        } catch (UnsupportedEncodingException e) {
+            log.error("编码失败", e);
+        }
+
+    }
+
+    /**
+     * 下载使用说明
+     * @param response
+     */
+    public void downloadUseInstrucntion(HttpServletResponse response){
+        String path = "/files/GroupSend.docx";
+        File file = new File(path);
+        try {
+            @Cleanup FileInputStream is = new FileInputStream(file);
+            byte[] bs = new byte[1024];
+            int len = 0;
+            while ((len=is.read(bs)) != -1){
+                response.getOutputStream().write(bs, 0, len);
+            }
+        } catch (IOException e) {
+            log.error("下载失败", e);
         }
     }
 }
