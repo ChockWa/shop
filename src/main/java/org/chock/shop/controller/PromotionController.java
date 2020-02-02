@@ -8,6 +8,7 @@ import org.chock.shop.service.GroupUserService;
 import org.chock.shop.util.JwtUtils;
 import org.chock.shop.util.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,20 +22,23 @@ public class PromotionController {
     private GroupUserService groupUserService;
     @Autowired
     private RedisUtils redisUtils;
+    @Value("${request.prefix}")
+    private String requestPrefix;
 
-    @GetMapping("/")
+    @GetMapping("/index")
     public ModelAndView index() {
-        return new ModelAndView("index", "name", "hehehehehehe");
+        System.out.println(requestPrefix);
+        return new ModelAndView("index", "requestPrefix", requestPrefix);
     }
 
     @GetMapping("/regP")
     public ModelAndView registerPage() {
-        return new ModelAndView("register");
+        return new ModelAndView("register", "requestPrefix", requestPrefix);
     }
 
     @GetMapping("/loginP")
     public ModelAndView loginPage() {
-        return new ModelAndView("login");
+        return new ModelAndView("login", "requestPrefix", requestPrefix);
     }
 
     @GetMapping("/chargeP")

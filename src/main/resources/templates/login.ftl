@@ -54,7 +54,7 @@
         }
         let loading = layer.load(2, {shade: [0.6, '#ccc']})
         $.ajax({
-            url:"/login",
+            url: "${requestPrefix}" + "/login",
             data:JSON.stringify({'userName':userName, "password":password,"verifyCode":verifyCode,"uuid":uuid}),
             type:"Post",
             contentType: "application/json;charset=utf-8",
@@ -71,7 +71,7 @@
                     localStorage.setItem("ginfo", JSON.stringify({"groupT": token, "userName":userName, "vipEndTime": vipEndTime}))
                     let index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                     parent.layer.close(index); //再执行关闭
-                    parent.location = "/"
+                    parent.location = "/index"
                 }else{
                     layer.close(loading)
                     error(data.msg)

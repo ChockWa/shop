@@ -59,7 +59,7 @@
 
         let loading = loadingLayer.load(2, {shade: [0.6, '#ccc']})
         $.ajax({
-            url:"/charge/" + cardNo,
+            url: "${requestPrefix}" + "/charge/" + cardNo,
             type:"Get",
             headers: {"groupT": JSON.parse(localStorage.getItem("ginfo")).groupT},
             contentType: "application/json;charset=utf-8",
@@ -76,7 +76,7 @@
                     await sleep(1000)
                     let index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                     parent.layer.close(index); //再执行关闭
-                    parent.location = "/"
+                    parent.location = "/index"
                 }else{
                     layer.close(loading)
                     error(data.msg)

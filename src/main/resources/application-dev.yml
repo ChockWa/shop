@@ -44,3 +44,6 @@ spring:
 
 logging:
   config: classpath:logback-dev.xml
+
+request:
+  prefix: ''
