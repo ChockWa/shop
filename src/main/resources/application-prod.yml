@@ -46,4 +46,4 @@ logging:
   config: classpath:logback-prod.xml
 
 request:
-  prefix: '/api'
+  prefix: ''
