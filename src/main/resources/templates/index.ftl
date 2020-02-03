@@ -50,7 +50,7 @@
                 <div>
                     <div>客服：</div>
                     <div>
-                        qq:2395287915<br>
+                        qq:2102524163<br>
                         email:chockwa888@gmail.com
                     </div>
                 </div>
