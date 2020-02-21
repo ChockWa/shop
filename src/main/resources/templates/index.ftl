@@ -64,7 +64,7 @@
         <h3>详情描述</h3>
         <hr>
         本工具支持两种方式的群发(可发送图片)，1.对指定QQ群内的群成员进行群发消息。2.对QQ所有群进行群发消息。如下图：
-        <img class="detail_desc_img" src="../static/images/groupsend1.png">
+        <img class="detail_desc_img" src="../static/images/groupsend1.jpg">
     </div>
     <hr>
     <div>
