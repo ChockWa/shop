@@ -133,7 +133,7 @@ public class PromotionController extends BaseController {
     @GetMapping("downloadTool")
     public void downloadTool(HttpServletResponse response){
         try {
-            response.setHeader("Content-Disposition", "attachment;filename=" + java.net.URLEncoder.encode("简易群发工具图文教程", "UTF-8") + ".docx");
+            response.setHeader("Content-Disposition", "attachment;filename=" + java.net.URLEncoder.encode("GroupSend", "UTF-8") + ".zip");
             downloadT(response);
         } catch (UnsupportedEncodingException e) {
             log.error("编码失败", e);
