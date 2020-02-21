@@ -40,6 +40,10 @@
                     <div>18元/月</div>
                 </div>
                 <div>
+                    <div>大小：</div>
+                    <div>39M</div>
+                </div>
+                <div>
                     <div>描述：</div>
                     <div>
                         本工具支持三种方式的群发(具体可查看下面的教程)：<br>
