@@ -16,7 +16,7 @@ public class ShopController {
     @GetMapping("info")
     public Result getShopInfo(){
         Map<String, Object> shopInfo = new HashMap<>();
-        shopInfo.put("desc", "打开拼多多APP，搜索店铺：饰货");
+        shopInfo.put("descs", Arrays.asList("打开拼多多APP，搜索店铺：饰货"));
         shopInfo.put("contacts", Arrays.asList("微信：hzh081215"));
         return Result.SUCCESS().setData("info", shopInfo);
     }
