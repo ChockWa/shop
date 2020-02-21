@@ -44,12 +44,14 @@
                     <div>
                         本工具支持两种方式的QQ群发：<br>
                         1.针对某一个QQ群的所有成员进行群发<br>
-                        2.针对所有QQ群进行群发
+                        2.针对所有QQ群进行群发<br>
+                        3.针对微信所有人(也可以包括群)进行群发<br>
                     </div>
                 </div>
                 <div>
                     <div>客服：</div>
                     <div>
+                        wechat:hhzzhh0601<br>
                         qq:2102524163<br>
                         email:chockwa888@gmail.com
                     </div>
