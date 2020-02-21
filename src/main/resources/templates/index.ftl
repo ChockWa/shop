@@ -37,7 +37,7 @@
                 </div>
                 <div>
                     <div>资费：</div>
-                    <div>18元/月</div>
+                    <div>18元/月（优惠阶段）</div>
                 </div>
                 <div>
                     <div>大小：</div>
