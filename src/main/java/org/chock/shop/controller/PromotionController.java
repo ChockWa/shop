@@ -55,7 +55,7 @@ public class PromotionController extends BaseController {
     @RateLimit
     @GetMapping("/chargeP")
     public ModelAndView chargePage() {
-        return new ModelAndView("charge");
+        return new ModelAndView("charge", "requestPrefix", requestPrefix);
     }
 
     @RateLimit
@@ -118,7 +118,7 @@ public class PromotionController extends BaseController {
         }
     }
 
-
+    @RateLimit
     @GetMapping("downloadUB")
     public void downloadUseBook(HttpServletResponse response){
         try {
@@ -127,7 +127,17 @@ public class PromotionController extends BaseController {
         } catch (UnsupportedEncodingException e) {
             log.error("编码失败", e);
         }
+    }
 
+    @RateLimit
+    @GetMapping("downloadTool")
+    public void downloadTool(HttpServletResponse response){
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename=" + java.net.URLEncoder.encode("简易群发工具图文教程", "UTF-8") + ".docx");
+            downloadT(response);
+        } catch (UnsupportedEncodingException e) {
+            log.error("编码失败", e);
+        }
     }
 
     /**
@@ -140,6 +150,25 @@ public class PromotionController extends BaseController {
         try {
             @Cleanup FileInputStream is = new FileInputStream(file);
             byte[] bs = new byte[1024];
+            int len = 0;
+            while ((len=is.read(bs)) != -1){
+                response.getOutputStream().write(bs, 0, len);
+            }
+        } catch (IOException e) {
+            log.error("下载失败", e);
+        }
+    }
+
+    /**
+     * 下载工具
+     * @param response
+     */
+    public void downloadT(HttpServletResponse response){
+        String path = "/files/GroupSend.zip";
+        File file = new File(path);
+        try {
+            @Cleanup FileInputStream is = new FileInputStream(file);
+            byte[] bs = new byte[8192];
             int len = 0;
             while ((len=is.read(bs)) != -1){
                 response.getOutputStream().write(bs, 0, len);

@@ -69,8 +69,8 @@
     <hr>
     <div>
         <button id="downloadUseBook" type="button" class="layui-btn layui-btn-sm">下载使用图文教程</button>
-        <button type="button" class="layui-btn layui-btn-sm">下载使用视频教程</button>
-        <button type="button" class="layui-btn layui-btn-sm layui-btn-danger">下载工具</button>
+        <button id="downloadUseVedio" type="button" class="layui-btn layui-btn-sm">下载使用视频教程</button>
+        <button id="downloadTool" type="button" class="layui-btn layui-btn-sm layui-btn-danger">下载工具</button>
     </div>
     <hr>
 </div>
@@ -149,6 +149,14 @@
 
     $("#downloadUseBook").click(function () {
         checkLogin(() => {window.open("/downloadUB")})
+    })
+
+    $("#downloadUseVedio").click(function () {
+        error("后续将提供，请先参考图文教程!")
+    })
+
+    $("#downloadTool").click(function () {
+        checkLogin(() => {window.open("/downloadTool")})
     })
 
     function checkLogin(callback, params) {
