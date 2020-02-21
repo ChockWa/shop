@@ -16,7 +16,7 @@
         </div><div class="layui-form-item">
             <label class="layui-form-label">资费</label>
             <div class="layui-input-block">
-                <span style="line-height: 38px;">18元/月</span>
+                <span style="line-height: 38px;">10元/月</span>
             </div>
         </div>
         <div class="layui-form-item">
