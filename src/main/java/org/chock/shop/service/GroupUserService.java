@@ -106,10 +106,10 @@ public class GroupUserService {
         if(users.size() < 1){
             throw new BizException(9999, "用户不存在!");
         }
-        var user = users.get(0);
-
-        if(user.getVipEndTime() == null || new Date().after(user.getVipEndTime())){
-            throw new BizException(9999, "非月会员或会员已过期,请登录网站续费!");
-        }
+//        var user = users.get(0);
+//
+//        if(user.getVipEndTime() == null || new Date().after(user.getVipEndTime())){
+//            throw new BizException(9999, "非月会员或会员已过期,请登录网站续费!");
+//        }
     }
 }

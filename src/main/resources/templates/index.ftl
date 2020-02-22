@@ -23,7 +23,7 @@
     <div class="nav_button">
         <button id="login_action" type="button" class="layui-btn layui-btn-sm">登录</button>
         <button id="register_action" type="button" class="layui-btn layui-btn-primary layui-btn-sm">注册</button>
-        <button id="charge_action" type="button" class="layui-btn layui-btn-sm layui-btn-danger">办理会员</button>
+<#--        <button id="charge_action" type="button" class="layui-btn layui-btn-sm layui-btn-danger">办理会员</button>-->
     </div>
     <div class="simple_desc">
         <div class="product_logo">
@@ -37,7 +37,7 @@
                 </div>
                 <div>
                     <div>资费：</div>
-                    <div>0元/月（试用阶段,发送内容会带上本网址）</div>
+                    <div>0元/月（免费试用阶段,发送内容会带上本站网址）</div>
                 </div>
                 <div>
                     <div>大小：</div>
@@ -58,6 +58,13 @@
                         wechat:hhzzhh0601<br>
                         qq:2102524163<br>
                         email:chockwa888@gmail.com
+                    </div>
+                </div>
+                <div>
+                    <div>PS：</div>
+                    <div>
+                        有可能随着QQ,微信版本的升级而使用不了，<br>
+                        因此软件会进行长期维护,维护完后将通知用户重新下载
                     </div>
                 </div>
             </div>
